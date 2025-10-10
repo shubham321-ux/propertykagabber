@@ -24,7 +24,7 @@ const __dirname = path.dirname(__filename);
 // connect DB
 connectDB(process.env.MONGO_URI);
 
-// ✅ Helmet with custom CSP
+// Helmet + CSP
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -32,13 +32,13 @@ app.use(
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'"],
         styleSrc: ["'self'", "'unsafe-inline'", "https:"],
-        imgSrc: ["'self'", "data:", "blob:"],  // ✅ allow blob & data URLs
-        mediaSrc: ["'self'", "blob:"],         // ✅ allow video/audio previews
-        connectSrc: ["'self'", "http://localhost:5173"], // allow API calls from React dev
+        imgSrc: ["'self'", "data:", "blob:"],
+        mediaSrc: ["'self'", "blob:"],
+        connectSrc: ["'self'", "http://localhost:5173"],
         objectSrc: ["'none'"],
       },
     },
-    crossOriginEmbedderPolicy: false, // avoid issues with video previews
+    crossOriginEmbedderPolicy: false,
   })
 );
 
@@ -46,30 +46,39 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// cors (allow credentials for React dev mode)
+// CORS
 app.use(
   cors({
-    origin: ["http://localhost:5173"], // vite default dev port
+    origin: ["http://localhost:5173"],
     credentials: true,
   })
 );
 
-// static uploads (for property images, etc.)
+// Static uploads
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-//  API ROUTES 
+// API ROUTES
 app.use("/api/auth", authRoutes);
 app.use("/api/properties", propertyRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/pages", pageRoutes);
 
+// Test API
 app.get("/api/hy", (req, res) => {
   res.send("hy there from backend");
 });
 
-//  FRONTEND BUILD 
-const frontendPath = path.join(__dirname, "../frontend/frontend/dist");
+// ✅ FRONTEND BUILD - dynamic path
+let frontendPath;
+if (process.env.NODE_ENV === "production") {
+  // For Vercel deployment: move frontend build inside backend/frontend/dist
+  frontendPath = path.join(__dirname, "frontend/dist");
+} else {
+  // For local dev (nested folder)
+  frontendPath = path.join(__dirname, "../frontend/frontend/dist");
+}
+
 app.use(express.static(frontendPath));
 
 // Catch-all: send React index.html for non-API routes
@@ -77,10 +86,10 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(frontendPath, "index.html"));
 });
 
-//  ERROR HANDLER 
+// ERROR HANDLER
 app.use(errorHandler);
 
-// start server
+// Start server
 const PORT = process.env.PORT || 5002;
 app.listen(PORT, () =>
   console.log(`🚀 Server running on http://localhost:${PORT}`)

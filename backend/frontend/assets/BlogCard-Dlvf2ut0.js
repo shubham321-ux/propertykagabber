@@ -1,0 +1,8 @@
+import{r as s,j as t,L as i}from"./index-B45e3eNl.js";import{m as l}from"./homePic-C8oDk_6B.js";function m({blog:e}){const[o,n]=s.useState(!1),r=e._id?`${window.location.origin}${e.image}`:e.image;return t.jsxs(l.div,{className:`backdrop-blur-md bg-white/10 border border-white/20 rounded-xl overflow-hidden 
+                 flex flex-col hover:bg-white/20 hover:shadow-lg transition duration-300`,whileHover:{scale:1.03},children:[!o&&r?t.jsx("img",{src:r,alt:e.title,loading:"lazy",onError:()=>n(!0),className:"w-full h-44 object-cover rounded-t-xl"}):t.jsx("div",{className:"w-full h-44 bg-neutral-800 flex items-center justify-center text-gray-400",children:"No Image"}),t.jsxs("div",{className:"p-5 flex flex-col flex-1 text-white",children:[t.jsx("h3",{className:"text-xl font-semibold mb-2 text-white",children:e.title}),t.jsx("p",{className:"text-sm text-neutral-200 mb-3 line-clamp-3",children:(e.content||e.desc)?.slice(0,120)||"No content available."}),e._id?t.jsx(i,{to:`/blogs/${e._id}`,className:`mt-auto inline-block px-4 py-2 rounded-lg border border-white/20 
+                       bg-white/10 text-white text-sm font-medium
+                       hover:bg-white/20 hover:border-white/40 
+                       transition duration-300`,children:"Read More →"}):t.jsx(i,{to:"/blogs",className:`mt-auto inline-block px-4 py-2 rounded-lg border border-white/20 
+                       bg-white/10 text-white text-sm font-medium
+                       hover:bg-white/20 hover:border-white/40 
+                       transition duration-300`,children:"Explore Blogs →"})]})]})}export{m as B};
