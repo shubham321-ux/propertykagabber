@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { deletePropertyVideo } from "../../api/api";
+
 import {
   getProperties,
   deleteProperty,
@@ -96,15 +98,15 @@ export default function ManageProperties() {
     }
   };
 
-  const handleDeleteVideo = async (id) => {
-    if (!window.confirm("Delete this video?")) return;
-    try {
-      await api.delete(`/properties/${id}/video`);
-      loadProperties();
-    } catch (err) {
-      console.error("Failed to delete video:", err);
-    }
-  };
+ const handleDeleteVideo = async (id) => {
+  if (!window.confirm("Delete this video?")) return;
+  try {
+    await deletePropertyVideo(id);
+    loadProperties();
+  } catch (err) {
+    console.error("Failed to delete video:", err);
+  }
+};
 
   if (loading) return <p className="text-center py-10">Loading properties...</p>;
 
@@ -205,99 +207,170 @@ export default function ManageProperties() {
       </Modal>
 
       {/* Edit Modal */}
-      <Modal open={openEdit} onClose={() => setOpenEdit(false)} title="Edit Property">
-        <form onSubmit={handleUpdate} className="space-y-3">
-          <input
-            type="text"
-            value={editForm.title}
-            onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
-            placeholder="Title"
-            className="w-full border rounded px-3 py-2"
-          />
-          <textarea
-            value={editForm.description}
-            onChange={(e) =>
-              setEditForm({ ...editForm, description: e.target.value })
-            }
-            placeholder="Description"
-            className="w-full border rounded px-3 py-2"
-          />
-          <input
-            type="number"
-            value={editForm.price}
-            onChange={(e) => setEditForm({ ...editForm, price: e.target.value })}
-            placeholder="Price"
-            className="w-full border rounded px-3 py-2"
-          />
-          <input
-            type="text"
-            value={editForm.location}
-            onChange={(e) =>
-              setEditForm({ ...editForm, location: e.target.value })
-            }
-            placeholder="Location"
-            className="w-full border rounded px-3 py-2"
-          />
+  {/* ✅ Edit Modal */}
+<Modal open={openEdit} onClose={() => setOpenEdit(false)} title="Edit Property">
+  <form onSubmit={handleUpdate} className="space-y-3">
+    {/* Title */}
+    <label className="block text-sm font-medium">Title</label>
+    <input
+      type="text"
+      value={editForm.title}
+      onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
+      placeholder="Title"
+      className="w-full border rounded px-3 py-2"
+    />
 
-          {/* Upload New Images */}
-          <input
-            type="file"
-            multiple
-            onChange={(e) => setEditImages(Array.from(e.target.files))}
-            className="w-full border rounded px-3 py-2"
-          />
+    {/* Description */}
+    <label className="block text-sm font-medium">Description</label>
+    <textarea
+      value={editForm.description}
+      onChange={(e) =>
+        setEditForm({ ...editForm, description: e.target.value })
+      }
+      placeholder="Description"
+      className="w-full border rounded px-3 py-2"
+    />
 
-          {/* Preview Newly Selected Images */}
-          {editImages.length > 0 && (
-            <div className="flex gap-2 flex-wrap mt-2">
-              {editImages.map((file, idx) => (
-                <img
-                  key={idx}
-                  src={URL.createObjectURL(file)}
-                  alt="Preview"
-                  className="w-24 h-20 object-cover rounded-md border"
-                />
+    {/* Price */}
+    <label className="block text-sm font-medium">Price</label>
+    <input
+      type="number"
+      value={editForm.price}
+      onChange={(e) => setEditForm({ ...editForm, price: e.target.value })}
+      placeholder="Price"
+      className="w-full border rounded px-3 py-2"
+    />
+
+    {/* Location */}
+    <label className="block text-sm font-medium">Location</label>
+    <input
+      type="text"
+      value={editForm.location}
+      onChange={(e) =>
+        setEditForm({ ...editForm, location: e.target.value })
+      }
+      placeholder="Location"
+      className="w-full border rounded px-3 py-2"
+    />
+
+    {/* ✅ EXISTING IMAGES */}
+    {editing &&
+      properties.find((p) => p._id === editing)?.images?.length > 0 && (
+        <div className="mt-4">
+          <label className="block text-sm font-medium mb-1">
+            Existing Images
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {properties
+              .find((p) => p._id === editing)
+              .images.map((img, idx) => (
+                <div key={idx} className="relative">
+                  <img
+                    src={`${window.location.origin}${img}`}
+                    alt=""
+                    className="w-24 h-20 object-cover rounded-md border"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteImage(editing, idx)}
+                    className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-1"
+                  >
+                    ✕
+                  </button>
+                </div>
               ))}
-            </div>
-          )}
-
-          {/* Upload New Video */}
-          <input
-            type="file"
-            accept="video/*"
-            onChange={(e) => setEditVideo(e.target.files[0])}
-            className="w-full border rounded px-3 py-2"
-          />
-
-          {/* Preview Newly Selected Video */}
-          {editVideo && (
-            <div className="mt-2">
-              <video
-                src={URL.createObjectURL(editVideo)}
-                controls
-                className="w-full rounded-md"
-              />
-            </div>
-          )}
-
-          <div className="flex justify-end gap-3 mt-4">
-            <button
-              type="button"
-              onClick={() => setOpenEdit(false)}
-              className="px-4 py-2 border rounded"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={saving}
-              className="bg-primary text-white px-4 py-2 rounded"
-            >
-              {saving ? "Saving..." : "Save"}
-            </button>
           </div>
-        </form>
-      </Modal>
+        </div>
+      )}
+
+    {/* ✅ EXISTING VIDEO */}
+    {editing && properties.find((p) => p._id === editing)?.video && (
+      <div className="mt-4">
+        <label className="block text-sm font-medium mb-1">
+          Existing Video
+        </label>
+        <div className="relative">
+          <video
+            src={`${window.location.origin}${
+              properties.find((p) => p._id === editing).video
+            }`}
+            controls
+            className="w-full rounded-md border"
+          />
+          <button
+            type="button"
+            onClick={() => handleDeleteVideo(editing)}
+            className="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded"
+          >
+            Delete Video
+          </button>
+        </div>
+      </div>
+    )}
+
+    {/* ✅ ADD NEW IMAGES */}
+    <div className="mt-4">
+      <label className="block text-sm font-medium mb-1">Add New Images</label>
+      <input
+        type="file"
+        multiple
+        onChange={(e) => setEditImages(Array.from(e.target.files))}
+        className="w-full border rounded px-3 py-2"
+      />
+      {editImages.length > 0 && (
+        <div className="flex flex-wrap gap-2 mt-2">
+          {editImages.map((file, idx) => (
+            <img
+              key={idx}
+              src={URL.createObjectURL(file)}
+              alt="Preview"
+              className="w-24 h-20 object-cover rounded-md border"
+            />
+          ))}
+        </div>
+      )}
+    </div>
+
+    {/* ✅ ADD NEW VIDEO */}
+    <div className="mt-4">
+      <label className="block text-sm font-medium mb-1">Add New Video</label>
+      <input
+        type="file"
+        accept="video/*"
+        onChange={(e) => setEditVideo(e.target.files[0])}
+        className="w-full border rounded px-3 py-2"
+      />
+      {editVideo && (
+        <div className="mt-2">
+          <video
+            src={URL.createObjectURL(editVideo)}
+            controls
+            className="w-full rounded-md"
+          />
+        </div>
+      )}
+    </div>
+
+    {/* Buttons */}
+    <div className="flex justify-end gap-3 mt-6">
+      <button
+        type="button"
+        onClick={() => setOpenEdit(false)}
+        className="px-4 py-2 border rounded"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        disabled={saving}
+        className="bg-primary text-white px-4 py-2 rounded"
+      >
+        {saving ? "Saving..." : "Save Changes"}
+      </button>
+    </div>
+  </form>
+</Modal>
+
     </div>
   );
 }

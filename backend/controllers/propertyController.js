@@ -149,3 +149,26 @@ export const deleteImage = async (req, res, next) => {
   }
 };
 
+
+// DELETE property video
+export const deleteVideo = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const property = await Property.findById(id);
+
+    if (!property) return res.status(404).json({ message: "Property not found" });
+    if (!property.video) return res.status(400).json({ message: "No video to delete" });
+
+    // remove the actual video file
+    removeFileIfExists(property.video);
+
+    // clear video field
+    property.video = null;
+    await property.save();
+
+    res.json({ message: "Video deleted successfully", property });
+  } catch (err) {
+    console.error("Error deleting video:", err);
+    next(err);
+  }
+};

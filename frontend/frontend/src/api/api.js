@@ -98,9 +98,9 @@ export async function createContact(data) {
   return res.data;
 }
 
-export async function updateContact(data) {
-  const res = await api.put("/contact", data);
-  return res.data;
+export async function updateContact(id, data) {
+  const res = await api.patch(`/contact/${id}`, data); // ✅ PATCH for partial update
+  return res.data.contact || res.data;
 }
 
 export async function patchContact(data) {
@@ -133,6 +133,12 @@ export async function deletePage(name) {
   const res = await api.delete(`/pages/${name}`);
   return res.data;
 }
+
+export async function deletePropertyVideo(id) {
+  const res = await api.delete(`/properties/${id}/video`);
+  return res.data;
+}
+
 
 // Export instance
 export default api;

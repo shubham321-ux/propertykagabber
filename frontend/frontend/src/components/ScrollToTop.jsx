@@ -8,5 +8,5 @@ export default function ScrollToTop() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [pathname]);
 
-  return null; // nothing to render
+  return null; 
 }

@@ -9,8 +9,8 @@ const pageSchema = new mongoose.Schema(
 
     sections: [
       {
-        heading: { type: String, required: true },
-        content: { type: String, required: true },
+        heading: { type: String },
+        content: { type: String },
       },
     ],
   },

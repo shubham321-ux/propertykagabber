@@ -8,7 +8,8 @@ import {
   getOne,
   update,
   remove,
-  deleteImage
+  deleteImage,
+  deleteVideo
 } from "../controllers/propertyController.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 
@@ -51,5 +52,8 @@ router.put(
 router.delete("/:id", authMiddleware, remove);
 
 router.delete("/:id/images/:index", deleteImage);
+// delete single video
+router.delete("/:id/video", authMiddleware, deleteVideo);
+
 
 export default router;

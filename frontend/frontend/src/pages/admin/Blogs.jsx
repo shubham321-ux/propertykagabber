@@ -1,23 +1,25 @@
 import { useEffect, useState } from "react";
 import { getBlogs, createBlog, deleteBlog, updateBlog } from "../../api/api";
+import { Eye, Edit2, Trash2 } from "lucide-react"; // 👁️ icons
 
 export default function AdminBlogs() {
   const [blogs, setBlogs] = useState([]);
-  const [form, setForm] = useState({ title: "", content: "" });
+  const [form, setForm] = useState({ title: "", description: "", content: "" });
   const [image, setImage] = useState(null);
-  const [previewImage, setPreviewImage] = useState(null); // 👈 For create preview
+  const [previewImage, setPreviewImage] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Edit modal states
+  // Modal states
   const [editBlog, setEditBlog] = useState(null);
+  const [viewBlog, setViewBlog] = useState(null);
   const [editImage, setEditImage] = useState(null);
-  const [editPreviewImage, setEditPreviewImage] = useState(null); // 👈 For edit preview
+  const [editPreviewImage, setEditPreviewImage] = useState(null);
 
   const loadBlogs = async () => {
     try {
       setLoading(true);
       const data = await getBlogs();
-      setBlogs(data);
+      setBlogs(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("Error loading blogs:", err);
     } finally {
@@ -34,15 +36,17 @@ export default function AdminBlogs() {
     e.preventDefault();
     const formData = new FormData();
     formData.append("title", form.title);
+    formData.append("description", form.description);
     formData.append("content", form.content);
     if (image) formData.append("image", image);
 
     try {
       const newBlog = await createBlog(formData);
       setBlogs([newBlog, ...blogs]);
-      setForm({ title: "", content: "" });
+      setForm({ title: "", description: "", content: "" });
       setImage(null);
       setPreviewImage(null);
+      alert("✅ Blog created successfully!");
     } catch (err) {
       console.error(err);
       alert("❌ Failed to create blog");
@@ -55,6 +59,7 @@ export default function AdminBlogs() {
     try {
       await deleteBlog(id);
       setBlogs((prev) => prev.filter((b) => b._id !== id));
+      alert("🗑️ Blog deleted successfully!");
     } catch (err) {
       console.error(err);
       alert("❌ Failed to delete blog");
@@ -68,6 +73,7 @@ export default function AdminBlogs() {
 
     const formData = new FormData();
     formData.append("title", editBlog.title);
+    formData.append("description", editBlog.description);
     formData.append("content", editBlog.content);
     if (editImage) formData.append("image", editImage);
 
@@ -79,6 +85,7 @@ export default function AdminBlogs() {
       setEditBlog(null);
       setEditImage(null);
       setEditPreviewImage(null);
+      alert("✅ Blog updated successfully!");
     } catch (err) {
       console.error(err);
       alert("❌ Failed to update blog");
@@ -87,9 +94,7 @@ export default function AdminBlogs() {
 
   return (
     <div className="max-w-[1400px] mx-auto p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-primary">Manage Blogs</h2>
-      </div>
+      <h2 className="text-2xl font-bold text-primary mb-6">Manage Blogs</h2>
 
       {/* Add Blog Form */}
       <form
@@ -104,8 +109,16 @@ export default function AdminBlogs() {
           required
           className="w-full border rounded px-3 py-2"
         />
+        <input
+          type="text"
+          placeholder="Short Description"
+          value={form.description}
+          onChange={(e) => setForm({ ...form, description: e.target.value })}
+          required
+          className="w-full border rounded px-3 py-2"
+        />
         <textarea
-          placeholder="Blog Content"
+          placeholder="Full Blog Content"
           value={form.content}
           onChange={(e) => setForm({ ...form, content: e.target.value })}
           required
@@ -117,12 +130,11 @@ export default function AdminBlogs() {
           onChange={(e) => {
             const file = e.target.files[0];
             setImage(file);
-            setPreviewImage(file ? URL.createObjectURL(file) : null); // 👈 Show preview
+            setPreviewImage(file ? URL.createObjectURL(file) : null);
           }}
           className="w-full"
         />
 
-        {/* Show preview for new blog */}
         {previewImage && (
           <img
             src={previewImage}
@@ -150,7 +162,7 @@ export default function AdminBlogs() {
             <thead className="bg-gray-100">
               <tr>
                 <th className="p-3 border-b text-left">Title</th>
-                <th className="p-3 border-b text-left">Content</th>
+                <th className="p-3 border-b text-left">Description</th>
                 <th className="p-3 border-b text-left">Image</th>
                 <th className="p-3 border-b text-right">Actions</th>
               </tr>
@@ -160,7 +172,7 @@ export default function AdminBlogs() {
                 <tr key={b._id} className="hover:bg-gray-50 transition border-b">
                   <td className="p-3 font-medium">{b.title}</td>
                   <td className="p-3 text-sm text-gray-600">
-                    {b.content.slice(0, 80)}...
+                    {b.description || b.content.slice(0, 60)}...
                   </td>
                   <td className="p-3">
                     {b.image && (
@@ -171,18 +183,27 @@ export default function AdminBlogs() {
                       />
                     )}
                   </td>
-                  <td className="p-3 text-right space-x-2">
+                  <td className="p-3 text-right flex justify-end gap-2">
+                    <button
+                      onClick={() => setViewBlog(b)}
+                      className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+                      title="View Details"
+                    >
+                      <Eye size={18} />
+                    </button>
                     <button
                       onClick={() => setEditBlog(b)}
-                      className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+                      className="bg-yellow-500 text-white p-2 rounded hover:bg-yellow-600"
+                      title="Edit Blog"
                     >
-                      Edit
+                      <Edit2 size={18} />
                     </button>
                     <button
                       onClick={() => handleDelete(b._id)}
-                      className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                      className="bg-red-600 text-white p-2 rounded hover:bg-red-700"
+                      title="Delete Blog"
                     >
-                      Delete
+                      <Trash2 size={18} />
                     </button>
                   </td>
                 </tr>
@@ -192,19 +213,57 @@ export default function AdminBlogs() {
         </div>
       )}
 
+      {/* View Blog Modal */}
+      {viewBlog && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-[500px] max-h-[90vh] overflow-y-auto">
+            <h3 className="text-2xl font-bold text-primary mb-4">{viewBlog.title}</h3>
+            {viewBlog.image && (
+              <img
+                src={`${window.location.origin}${viewBlog.image}`}
+                alt={viewBlog.title}
+                className="w-full h-64 object-cover rounded mb-4"
+              />
+            )}
+            <p className="text-gray-700 mb-3">
+              <b>Description:</b> {viewBlog.description}
+            </p>
+            <p className="text-gray-600 leading-relaxed">{viewBlog.content}</p>
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={() => setViewBlog(null)}
+                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Edit Blog Modal */}
       {editBlog && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <form
             onSubmit={handleEditSubmit}
             className="bg-white p-6 rounded-lg shadow-lg w-96 space-y-4"
           >
-            <h3 className="text-xl font-bold">Edit Blog</h3>
+            <h3 className="text-xl font-bold text-primary">✏️ Edit Blog</h3>
+
             <input
               type="text"
               value={editBlog.title}
               onChange={(e) =>
                 setEditBlog({ ...editBlog, title: e.target.value })
+              }
+              className="w-full border rounded px-3 py-2"
+            />
+            <input
+              type="text"
+              value={editBlog.description || ""}
+              placeholder="Short Description"
+              onChange={(e) =>
+                setEditBlog({ ...editBlog, description: e.target.value })
               }
               className="w-full border rounded px-3 py-2"
             />
@@ -216,17 +275,17 @@ export default function AdminBlogs() {
               rows={5}
               className="w-full border rounded px-3 py-2"
             />
+
             <input
               type="file"
               onChange={(e) => {
                 const file = e.target.files[0];
                 setEditImage(file);
-                setEditPreviewImage(file ? URL.createObjectURL(file) : null); // 👈 Show preview
+                setEditPreviewImage(file ? URL.createObjectURL(file) : null);
               }}
               className="w-full"
             />
 
-            {/* Show preview (new uploaded image) */}
             {editPreviewImage ? (
               <img
                 src={editPreviewImage}
@@ -234,7 +293,6 @@ export default function AdminBlogs() {
                 className="w-28 h-20 object-cover rounded"
               />
             ) : (
-              // Show current image if no new upload
               editBlog.image && (
                 <img
                   src={`${window.location.origin}${editBlog.image}`}
@@ -244,7 +302,7 @@ export default function AdminBlogs() {
               )
             )}
 
-            <div className="flex justify-end gap-2">
+            <div className="flex justify-end gap-2 pt-2">
               <button
                 type="button"
                 onClick={() => {
