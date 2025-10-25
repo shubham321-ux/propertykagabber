@@ -1,7 +1,6 @@
 // routes/properties.js
 import { Router } from "express";
 import multer from "multer";
-import path from "path";
 import {
   create,
   list,
@@ -9,23 +8,14 @@ import {
   update,
   remove,
   deleteImage,
-  deleteVideo
+  deleteVideo,
 } from "../controllers/propertyController.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = Router();
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    if (file.fieldname === "images") cb(null, "uploads/images");
-    else if (file.fieldname === "video") cb(null, "uploads/videos");
-    else cb(null, "uploads/other");
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
-
+// ✅ Use memory storage (no file writes)
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 // create
@@ -50,10 +40,7 @@ router.put(
 
 // delete
 router.delete("/:id", authMiddleware, remove);
-
-router.delete("/:id/images/:index", deleteImage);
-// delete single video
+router.delete("/:id/images/:index", authMiddleware, deleteImage);
 router.delete("/:id/video", authMiddleware, deleteVideo);
-
 
 export default router;

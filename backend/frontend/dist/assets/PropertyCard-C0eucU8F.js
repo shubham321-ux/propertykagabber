@@ -1,0 +1,8 @@
+import{r as s,j as t,L as r}from"./index-CPOTCN69.js";import{m as n}from"./homePic-ChULYjsy.js";function c({property:e}){const[o,l]=s.useState(!1),i=e.images?`${window.location.origin}${e.images[0]}`:e.image;return t.jsxs(n.div,{className:`backdrop-blur-md bg-white/10 border border-white/20 rounded-xl overflow-hidden 
+                 flex flex-col hover:bg-white/20 hover:shadow-lg transition duration-300`,whileHover:{scale:1.03},children:[!o&&i?t.jsx("img",{src:i,alt:e.title,loading:"lazy",onError:()=>l(!0),className:"w-full h-56 object-cover rounded-t-xl"}):t.jsx("div",{className:"w-full h-56 bg-neutral-800 flex items-center justify-center text-gray-400",children:"No Image"}),t.jsxs("div",{className:"p-5 flex flex-col flex-1 text-white",children:[t.jsx("h3",{className:"text-xl font-semibold mb-2 text-white",children:e.title}),t.jsx("p",{className:"text-sm text-neutral-200 mb-3 line-clamp-3",children:e.description||e.desc||"No description available."}),e.price&&t.jsxs("p",{className:"text-accent font-bold text-lg mb-4",children:["₹ ",e.price.toLocaleString()]}),e._id?t.jsx(r,{to:`/properties/${e._id}`,className:`mt-auto inline-block px-4 py-2 rounded-lg border border-white/20 
+                       bg-white/10 text-white text-sm font-medium
+                       hover:bg-white/20 hover:border-white/40 
+                       transition duration-300`,children:"View Details →"}):t.jsx(r,{to:"/properties",className:`mt-auto inline-block px-4 py-2 rounded-lg border border-white/20 
+                       bg-white/10 text-white text-sm font-medium
+                       hover:bg-white/20 hover:border-white/40 
+                       transition duration-300`,children:"Explore More →"})]})]})}export{c as P};

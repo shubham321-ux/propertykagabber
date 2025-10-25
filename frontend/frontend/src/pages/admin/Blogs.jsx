@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getBlogs, createBlog, deleteBlog, updateBlog } from "../../api/api";
-import { Eye, Edit2, Trash2 } from "lucide-react"; // 👁️ icons
+import { Eye, Edit2, Trash2 } from "lucide-react";
 
 export default function AdminBlogs() {
   const [blogs, setBlogs] = useState([]);
@@ -15,6 +15,7 @@ export default function AdminBlogs() {
   const [editImage, setEditImage] = useState(null);
   const [editPreviewImage, setEditPreviewImage] = useState(null);
 
+  // ✅ Load Blogs
   const loadBlogs = async () => {
     try {
       setLoading(true);
@@ -31,7 +32,7 @@ export default function AdminBlogs() {
     loadBlogs();
   }, []);
 
-  // Create Blog
+  // ✅ Create Blog
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -53,7 +54,7 @@ export default function AdminBlogs() {
     }
   };
 
-  // Delete Blog
+  // ✅ Delete Blog
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this blog?")) return;
     try {
@@ -66,7 +67,7 @@ export default function AdminBlogs() {
     }
   };
 
-  // Update Blog
+  // ✅ Update Blog
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     if (!editBlog) return;
@@ -90,6 +91,13 @@ export default function AdminBlogs() {
       console.error(err);
       alert("❌ Failed to update blog");
     }
+  };
+
+  // ✅ Helper — Detect proper image URL
+  const getImageUrl = (img) => {
+    if (!img) return null;
+    if (img.startsWith("http")) return img; // Cloudinary
+    return `${window.location.origin}${img}`; // Local upload fallback
   };
 
   return (
@@ -177,7 +185,7 @@ export default function AdminBlogs() {
                   <td className="p-3">
                     {b.image && (
                       <img
-                        src={`${window.location.origin}${b.image}`}
+                        src={getImageUrl(b.image)}
                         alt={b.title}
                         className="w-20 h-16 object-cover rounded"
                       />
@@ -217,10 +225,12 @@ export default function AdminBlogs() {
       {viewBlog && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-[500px] max-h-[90vh] overflow-y-auto">
-            <h3 className="text-2xl font-bold text-primary mb-4">{viewBlog.title}</h3>
+            <h3 className="text-2xl font-bold text-primary mb-4">
+              {viewBlog.title}
+            </h3>
             {viewBlog.image && (
               <img
-                src={`${window.location.origin}${viewBlog.image}`}
+                src={getImageUrl(viewBlog.image)}
                 alt={viewBlog.title}
                 className="w-full h-64 object-cover rounded mb-4"
               />
@@ -295,7 +305,7 @@ export default function AdminBlogs() {
             ) : (
               editBlog.image && (
                 <img
-                  src={`${window.location.origin}${editBlog.image}`}
+                  src={getImageUrl(editBlog.image)}
                   alt="Current"
                   className="w-28 h-20 object-cover rounded"
                 />
