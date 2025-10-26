@@ -5,6 +5,7 @@ import Seo from "../components/Seo";
 import { FiFacebook, FiInstagram, FiTwitter, FiMapPin, FiClock, FiMail, FiPhone } from "react-icons/fi";
 import homeBg from "../assets/homePic.jpg";
 import { demoContact } from "../data/contactData";
+import property1 from "../assets/propert1.jpg"
 
 export default function Contact() {
   const [contact, setContact] = useState(null);
@@ -41,7 +42,7 @@ export default function Contact() {
         {/* Right Image */}
         <div className="md:w-1/2">
           <img
-            src={homeBg}
+            src={property1 }
             alt="Contact"
             className="rounded-2xl shadow-card w-full object-cover"
           />

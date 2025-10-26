@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import Seo from "../components/Seo";
 import aboutBg from "../assets/homePic.jpg"; // your existing hero image
-
+import property2 from "../assets/property2.jpg"
 export default function About() {
   const story = {
     heading: "Our Story",
@@ -53,7 +53,7 @@ export default function About() {
         {/* Right Image */}
         <div className="md:w-1/2 mt-10 md:mt-0 flex justify-end">
           <img
-            src={aboutBg}
+            src={property2 }
             alt="About us"
             className="rounded-2xl shadow-card w-full md:w-[85%] object-cover"
           />
