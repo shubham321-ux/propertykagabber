@@ -4,38 +4,32 @@ import { useState } from "react";
 
 export default function PropertyCard({ property }) {
   const [imgError, setImgError] = useState(false);
-
-  const imageUrl = property.images
-    ? `${window.location.origin}${property.images[0]}`
-    : property.image;
+  const imageUrl = property.images ? `${property.images[0]}` : property.image;
 
   return (
     <motion.div
-      className="backdrop-blur-md bg-white/10 border border-white/20 rounded-xl overflow-hidden 
-                 flex flex-col hover:bg-white/20 hover:shadow-lg transition duration-300"
-      whileHover={{ scale: 1.03 }}
+      className="bg-white border border-neutral/20 rounded-2xl shadow-card overflow-hidden flex flex-col hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+      whileHover={{ scale: 1.02 }}
     >
-      {/* Property Image */}
       {!imgError && imageUrl ? (
         <img
           src={imageUrl}
           alt={property.title}
           loading="lazy"
           onError={() => setImgError(true)}
-          className="w-full h-56 object-cover rounded-t-xl"
+          className="w-full h-56 object-cover"
         />
       ) : (
-        <div className="w-full h-56 bg-neutral-800 flex items-center justify-center text-gray-400">
+        <div className="w-full h-56 bg-neutral-light flex items-center justify-center text-neutral">
           No Image
         </div>
       )}
 
-      {/* Property Content */}
-      <div className="p-5 flex flex-col flex-1 text-white">
-        <h3 className="text-xl font-semibold mb-2 text-white">
+      <div className="p-5 flex flex-col flex-1">
+        <h3 className="text-xl font-semibold mb-2 text-primary-dark">
           {property.title}
         </h3>
-        <p className="text-sm text-neutral-200 mb-3 line-clamp-3">
+        <p className="text-sm text-neutral mb-3 line-clamp-3">
           {property.description || property.desc || "No description available."}
         </p>
 
@@ -45,28 +39,12 @@ export default function PropertyCard({ property }) {
           </p>
         )}
 
-        {/* Button */}
-        {property._id ? (
-          <Link
-            to={`/properties/${property._id}`}
-            className="mt-auto inline-block px-4 py-2 rounded-lg border border-white/20 
-                       bg-white/10 text-white text-sm font-medium
-                       hover:bg-white/20 hover:border-white/40 
-                       transition duration-300"
-          >
-            View Details →
-          </Link>
-        ) : (
-          <Link
-            to="/properties"
-            className="mt-auto inline-block px-4 py-2 rounded-lg border border-white/20 
-                       bg-white/10 text-white text-sm font-medium
-                       hover:bg-white/20 hover:border-white/40 
-                       transition duration-300"
-          >
-            Explore More →
-          </Link>
-        )}
+        <Link
+          to={property._id ? `/properties/${property._id}` : "/properties"}
+          className="mt-auto inline-block px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary-dark transition"
+        >
+          {property._id ? "View Details →" : "Explore More →"}
+        </Link>
       </div>
     </motion.div>
   );

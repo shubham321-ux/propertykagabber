@@ -11,113 +11,88 @@ export default function Blogs() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // ✅ SEO metadata
-  const seoContent = {
-    title: "Blogs - MySite",
-    description:
-      "Explore inspiring articles, construction insights, and modern architecture trends curated by MySite.",
-    keywords: "blogs, construction news, real estate, architecture, design, MySite",
-  };
-
-  // ✅ Demo fallback (only if no backend data)
   const demoBlogs = [
     {
       id: "demo1",
       title: "Inspiring Architecture",
       content: "Explore ideas shaping the future of modern design.",
-      image: "https://source.unsplash.com/600x400/?architecture,1",
+      image: "https://source.unsplash.com/600x400/?architecture",
     },
     {
       id: "demo2",
       title: "Smart Homes Trend",
       content: "How technology is changing the way we live.",
-      image: "https://source.unsplash.com/600x400/?smart-home,2",
+      image: "https://source.unsplash.com/600x400/?smart-home",
     },
     {
       id: "demo3",
       title: "Urban Development",
       content: "Cities of tomorrow: what will they look like?",
-      image: "https://source.unsplash.com/600x400/?city,3",
+      image: "https://source.unsplash.com/600x400/?city",
     },
   ];
 
-  // ✅ Fetch Blogs
   useEffect(() => {
-    let isMounted = true;
+    let mounted = true;
     getBlogs()
       .then((data) => {
-        if (!isMounted) return;
-        const realBlogs = Array.isArray(data)
-          ? data
-          : data?.blogs || [];
-
-        // ✅ Only show demo if backend has no data
-        if (realBlogs.length === 0) {
-          setBlogs(demoBlogs);
-        } else {
-          setBlogs(realBlogs);
-        }
+        if (!mounted) return;
+        const realBlogs = Array.isArray(data) ? data : data?.blogs || [];
+        setBlogs(realBlogs.length > 0 ? realBlogs : demoBlogs);
       })
-      .catch((err) => {
-        console.error("Error fetching blogs:", err);
+      .catch(() => {
         setError("Failed to load blogs");
-        setBlogs(demoBlogs); // fallback to demo only on error
+        setBlogs(demoBlogs);
       })
       .finally(() => setLoading(false));
-
-    return () => {
-      isMounted = false;
-    };
+    return () => (mounted = false);
   }, []);
 
   return (
-    <PageWrapper bgImage={homeBg} overlayOpacity={0.75}>
+    <>
       <Seo pageName="blog" />
 
-
-      {/* Header */}
+      {/* HERO */}
       <motion.section
-        className="text-center text-white px-6 py-16"
+        className="max-w-6xl mx-auto text-center py-24 px-6"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, ease: "easeOut" }}
       >
-        <h1 className="text-5xl font-heading font-bold mb-4 text-white">
-          Latest Blogs
+        <h1 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-primary-dark">
+          Our Latest Insights & Blogs
         </h1>
-        <p className="max-w-3xl mx-auto text-neutral-300 text-lg">
-          Stay updated with the latest trends, construction insights, and modern
-          living ideas from our experts.
+        <p className="max-w-3xl mx-auto text-neutral text-lg">
+          Stay inspired with stories and ideas from experts in architecture,
+          interior design, and construction.
         </p>
       </motion.section>
 
-      {/* Blog Grid */}
+      {/* GRID */}
       <motion.section
-        className="px-6 pb-20"
+        className="bg-white px-6 pb-24"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, ease: "easeOut" }}
       >
         {loading ? (
-          <div className="text-center text-neutral-300 text-lg py-20">
+          <div className="text-center text-neutral text-lg py-20">
             Loading blogs...
           </div>
         ) : error ? (
-          <div className="text-center text-red-400 text-lg py-20">
-            {error}
-          </div>
+          <div className="text-center text-red-500 text-lg py-20">{error}</div>
         ) : blogs.length === 0 ? (
-          <div className="text-center text-neutral-300 text-lg py-20">
+          <div className="text-center text-neutral text-lg py-20">
             No blogs available.
           </div>
         ) : (
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
-            {blogs.map((blog) => (
-              <BlogCard key={blog._id || blog.id} blog={blog} />
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
+            {blogs.map((b) => (
+              <BlogCard key={b._id || b.id} blog={b} />
             ))}
           </div>
         )}
       </motion.section>
-    </PageWrapper>
+    </>
   );
 }

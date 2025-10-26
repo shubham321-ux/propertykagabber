@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { getProperty } from "../api/api";
-import PageWrapper from "../components/PageWrapper";
 import Seo from "../components/Seo";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
-import homeBg from "../assets/homePic.jpg";
 
 export default function PropertyDetail() {
   const { id } = useParams();
@@ -14,7 +12,6 @@ export default function PropertyDetail() {
   const [loading, setLoading] = useState(true);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
-  const [posterIndex, setPosterIndex] = useState(0);
 
   useEffect(() => {
     getProperty(id)
@@ -25,138 +22,117 @@ export default function PropertyDetail() {
 
   if (loading)
     return (
-      <PageWrapper bgImage={homeBg}>
-        <p className="text-center text-neutral-300 text-lg py-20">
-          Loading property details...
-        </p>
-      </PageWrapper>
+      <div className="py-20 text-center text-neutral text-lg">
+        Loading property details...
+      </div>
     );
 
   if (!property)
     return (
-      <PageWrapper bgImage={homeBg}>
-        <p className="text-center text-neutral-300 text-lg py-20">
-          Property not found.
-        </p>
-      </PageWrapper>
+      <div className="py-20 text-center text-neutral text-lg">
+        Property not found.
+      </div>
     );
 
-  const images =
-    property.images?.map((img) => `${window.location.origin}${img}`) || [];
-
-  const seoData = {
-    title: `${property.title || "Property Details"} - MySite`,
-    description: property.description?.slice(0, 150) || "Property detail page.",
-    keywords:
-      "property, real estate, apartment, villa, MySite, property details",
-  };
+  const images = property.images?.map((img) => `${img}`) || [];
 
   return (
-    <PageWrapper bgImage={homeBg} overlayOpacity={0.75}>
-      <Seo pageName="properties details" />
+    <div className="bg-white text-neutral-dark">
+      <Seo pageName="property details" />
 
-
+      {/* Title */}
       <motion.section
-        className="px-6 py-16 max-w-6xl mx-auto text-white"
-        initial={{ opacity: 0, y: 40 }}
+        className="max-w-7xl mx-auto px-6 py-16 text-center"
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, ease: "easeOut" }}
+        transition={{ duration: 1 }}
       >
-        {/* Title */}
-        <h1 className="text-5xl font-heading font-bold mb-6 text-white text-center">
+        <h1 className="text-4xl md:text-5xl font-heading font-bold text-primary mb-3">
           {property.title}
         </h1>
+        <p className="text-neutral-dark text-lg">
+          {property.location || "Location not specified"}
+        </p>
+      </motion.section>
 
-        {/* Main Poster */}
-        <div className="mb-8">
-          {property.video && posterIndex === -1 ? (
-            <video
-              controls
-              className="w-full h-[450px] object-cover rounded-xl backdrop-blur-md bg-white/10 border border-white/20"
-              src={`${window.location.origin}${property.video}`}
-            />
-          ) : images.length > 0 ? (
-            <div
-              className="cursor-pointer"
-              onClick={() => setLightboxOpen(true)}
-            >
-              <img
-                src={images[posterIndex]}
-                alt={property.title}
-                className="w-full h-[450px] object-cover rounded-xl backdrop-blur-md bg-white/10 border border-white/20"
-              />
-            </div>
-          ) : (
-            <div className="w-full h-[450px] flex items-center justify-center rounded-xl bg-white/10 border border-white/20 text-neutral-300">
-              No media available
-            </div>
-          )}
-        </div>
+      {/* Main Media */}
+      <motion.div
+        className="max-w-6xl mx-auto px-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        {property.video ? (
+          <video
+            controls
+            className="w-full h-[500px] object-cover rounded-2xl shadow-card"
+            src={`${window.location.origin}${property.video}`}
+          />
+        ) : images.length > 0 ? (
+          <img
+            src={images[photoIndex]}
+            alt={property.title}
+            onClick={() => setLightboxOpen(true)}
+            className="w-full h-[500px] object-cover rounded-2xl shadow-card cursor-pointer"
+          />
+        ) : (
+          <div className="h-[500px] flex items-center justify-center rounded-2xl bg-neutral-light border border-neutral text-neutral">
+            No media available
+          </div>
+        )}
+      </motion.div>
 
-        {/* Thumbnails */}
-        <div className="flex gap-4 overflow-x-auto mb-10">
-          {property.video && (
-            <div
-              onClick={() => setPosterIndex(-1)}
-              className={`h-24 w-36 flex items-center justify-center rounded-lg backdrop-blur-md bg-white/10 border border-white/20 cursor-pointer hover:bg-white/20 transition ${
-                posterIndex === -1 ? "ring-2 ring-accent" : ""
-              }`}
-            >
-              🎥 Video
-            </div>
-          )}
+      {/* Thumbnails */}
+      {images.length > 1 && (
+        <div className="max-w-6xl mx-auto mt-6 flex gap-4 overflow-x-auto px-6 pb-8">
           {images.map((img, idx) => (
             <img
               key={idx}
               src={img}
-              alt={`${property.title} ${idx + 1}`}
-              onClick={() => setPosterIndex(idx)}
-              className={`h-24 w-36 object-cover rounded-lg backdrop-blur-md border border-white/20 cursor-pointer hover:opacity-80 transition ${
-                posterIndex === idx ? "ring-2 ring-accent" : ""
+              alt={`Property ${idx + 1}`}
+              onClick={() => setPhotoIndex(idx)}
+              className={`h-24 w-36 object-cover rounded-xl border cursor-pointer transition-all duration-300 ${
+                photoIndex === idx
+                  ? "ring-2 ring-primary scale-105"
+                  : "hover:opacity-80"
               }`}
             />
           ))}
         </div>
+      )}
 
-        {/* Property Info Section */}
-        <motion.div
-          className="backdrop-blur-md bg-white/10 border border-white/20 p-8 rounded-xl text-neutral-100 max-w-5xl mx-auto hover:bg-white/20 transition"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          <p className="text-lg mb-4">
-            <span className="font-semibold text-accent">Location:</span>{" "}
-            {property.location || "Not specified"}
+      {/* Details */}
+      <motion.section
+        className="max-w-5xl mx-auto px-6 py-16 text-left"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        {property.price && (
+          <p className="text-3xl font-bold text-accent mb-6">
+            ₹ {property.price.toLocaleString()}
           </p>
-          {property.price && (
-            <p className="text-2xl font-bold text-accent mb-6">
-              ₹ {property.price.toLocaleString()}
-            </p>
-          )}
-          <p className="leading-relaxed text-neutral-200">
-            {property.description || "No description available."}
-          </p>
-        </motion.div>
-
-        {/* Lightbox */}
-        {lightboxOpen && images.length > 0 && (
-          <Lightbox
-            mainSrc={images[posterIndex]}
-            nextSrc={images[(posterIndex + 1) % images.length]}
-            prevSrc={images[(posterIndex + images.length - 1) % images.length]}
-            onCloseRequest={() => setLightboxOpen(false)}
-            onMovePrevRequest={() =>
-              setPosterIndex(
-                (posterIndex + images.length - 1) % images.length
-              )
-            }
-            onMoveNextRequest={() =>
-              setPosterIndex((posterIndex + 1) % images.length)
-            }
-          />
         )}
+        <p className="text-lg leading-relaxed text-neutral-dark">
+          {property.description || "No description available."}
+        </p>
       </motion.section>
-    </PageWrapper>
+
+      {/* Lightbox */}
+      {lightboxOpen && images.length > 0 && (
+        <Lightbox
+          mainSrc={images[photoIndex]}
+          nextSrc={images[(photoIndex + 1) % images.length]}
+          prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+          onCloseRequest={() => setLightboxOpen(false)}
+          onMovePrevRequest={() =>
+            setPhotoIndex((photoIndex + images.length - 1) % images.length)
+          }
+          onMoveNextRequest={() =>
+            setPhotoIndex((photoIndex + 1) % images.length)
+          }
+        />
+      )}
+    </div>
   );
 }

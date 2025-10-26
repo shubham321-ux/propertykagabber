@@ -3,9 +3,7 @@ import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { getBlog } from "../api/api";
 import Seo from "../components/Seo";
-import PageWrapper from "../components/PageWrapper";
 import LazyImage from "../components/LazyImage";
-import homeBg from "../assets/homePic.jpg";
 
 export default function BlogDetail() {
   const { id } = useParams();
@@ -22,67 +20,69 @@ export default function BlogDetail() {
 
   if (loading)
     return (
-      <PageWrapper bgImage={homeBg}>
-        <p className="text-center text-neutral-300 text-lg py-20">
-          Loading blog...
-        </p>
-      </PageWrapper>
+      <div className="py-20 text-center text-neutral text-lg">Loading blog...</div>
     );
 
   if (!blog)
     return (
-      <PageWrapper bgImage={homeBg}>
-        <p className="text-center text-neutral-300 text-lg py-20">
-          Blog not found.
-        </p>
-      </PageWrapper>
+      <div className="py-20 text-center text-neutral text-lg">Blog not found.</div>
     );
 
-  const imageUrl = blog._id
-    ? `${window.location.origin}${blog.image}`
-    : blog.image;
+  const imageUrl = blog._id ? `${blog.image}` : blog.image;
 
   return (
-    <PageWrapper bgImage={homeBg} overlayOpacity={0.75}>
+    <div className="bg-white text-neutral-dark">
       <Seo pageName="blog details" />
 
+      {/* Header */}
       <motion.section
-        className="px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16 max-w-5xl mx-auto text-white"
-        initial={{ opacity: 0, y: 40 }}
+        className="max-w-7xl mx-auto px-6 py-16 text-center"
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: "easeOut" }}
+        transition={{ duration: 1 }}
       >
-        {/* Blog Image */}
+        <h1 className="text-4xl md:text-5xl font-heading font-bold text-primary mb-3">
+          {blog.title}
+        </h1>
+        <p className="text-neutral-dark text-lg">
+          Insights, architecture, and lifestyle from our experts.
+        </p>
+      </motion.section>
+
+      {/* Blog Image */}
+      <motion.div
+        className="max-w-6xl mx-auto px-6 mb-10"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
         {!imgError && imageUrl ? (
           <LazyImage
             src={imageUrl}
             alt={blog.title}
-            className="w-full h-[220px] sm:h-[300px] md:h-[400px] object-cover rounded-xl mb-6 sm:mb-8 backdrop-blur-md bg-white/10 border border-white/20"
+            className="w-full h-[480px] object-cover rounded-2xl shadow-card"
             onError={() => setImgError(true)}
           />
         ) : (
-          <div className="w-full h-[220px] sm:h-[300px] md:h-[400px] flex items-center justify-center rounded-xl backdrop-blur-md bg-white/10 border border-white/20 text-neutral-300 mb-6 sm:mb-8">
+          <div className="h-[480px] flex items-center justify-center rounded-2xl bg-neutral-light border border-neutral text-neutral">
             No Image Available
           </div>
         )}
+      </motion.div>
 
-        {/* Blog Title */}
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold mb-4 sm:mb-6 text-center text-white leading-snug">
-          {blog.title}
-        </h1>
-
-        {/* Blog Content */}
-        <motion.div
-          className="backdrop-blur-md bg-white/10 border border-white/20 p-4 sm:p-6 md:p-8 rounded-xl hover:bg-white/20 transition duration-300"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          <p className="text-neutral-100 leading-relaxed text-base sm:text-lg whitespace-pre-line break-words">
+      {/* Blog Content */}
+      <motion.section
+        className="max-w-5xl mx-auto px-6 pb-20"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <div className="bg-neutral-light border border-neutral/30 shadow-card p-8 rounded-2xl">
+          <p className="text-neutral-dark leading-relaxed text-lg whitespace-pre-line break-words">
             {blog.content || "No content available."}
           </p>
-        </motion.div>
+        </div>
       </motion.section>
-    </PageWrapper>
+    </div>
   );
 }

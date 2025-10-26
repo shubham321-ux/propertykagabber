@@ -2,13 +2,9 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { getContact } from "../api/api";
 import Seo from "../components/Seo";
-import PageWrapper from "../components/PageWrapper";
-import { FiFacebook, FiInstagram, FiTwitter, FiYoutube, FiMapPin, FiClock, FiMail, FiPhone } from "react-icons/fi";
+import { FiFacebook, FiInstagram, FiTwitter, FiMapPin, FiClock, FiMail, FiPhone } from "react-icons/fi";
 import homeBg from "../assets/homePic.jpg";
 import { demoContact } from "../data/contactData";
-
-// Demo fallback contact
-
 
 export default function Contact() {
   const [contact, setContact] = useState(null);
@@ -16,103 +12,80 @@ export default function Contact() {
   useEffect(() => {
     getContact()
       .then((res) => setContact(res?.contact || demoContact))
-      .catch((err) => {
-        console.error("Error loading contact:", err);
-        setContact(demoContact);
-      });
+      .catch(() => setContact(demoContact));
   }, []);
 
   if (!contact) return null;
 
   return (
-    <PageWrapper bgImage={homeBg} overlayOpacity={0.8}>
+    <div className="bg-white text-neutral-dark">
       <Seo pageName="contact" />
 
-      {/* Hero Section */}
+      {/* HERO */}
       <motion.section
-        className="text-center text-white px-4 max-w-3xl mx-auto py-10"
+        className="max-w-7xl mx-auto py-20 px-6 flex flex-col md:flex-row items-center justify-between gap-10"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        transition={{ duration: 1 }}
       >
-        <h1 className="text-4xl font-heading font-bold mb-2 text-white">
-          Contact Us
-        </h1>
-        <p className="text-base text-neutral-200 leading-relaxed">
-          Have questions or want to discuss your next project? Get in touch —
-          our team is happy to assist you!
-        </p>
+        {/* Left Text */}
+        <div className="md:w-1/2 space-y-5 text-center md:text-left">
+          <h1 className="text-4xl md:text-5xl font-heading font-bold text-primary-dark">
+            Contact Us
+          </h1>
+          <p className="text-lg text-neutral leading-relaxed">
+            Have questions or want to discuss your next project? Get in touch — our team is happy to assist you!
+          </p>
+        </div>
+
+        {/* Right Image */}
+        <div className="md:w-1/2">
+          <img
+            src={homeBg}
+            alt="Contact"
+            className="rounded-2xl shadow-card w-full object-cover"
+          />
+        </div>
       </motion.section>
 
-      {/* Contact Details Section */}
+      {/* CONTACT CARD */}
       <motion.section
-        className="text-white px-4 py-8 max-w-md mx-auto text-left space-y-4"
+        className="max-w-3xl mx-auto px-6 py-16"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
+        transition={{ duration: 1 }}
       >
-        <div className="backdrop-blur-md bg-white/10 border border-white/20 p-6 rounded-xl shadow-md space-y-3">
-          <h2 className="text-2xl font-heading font-bold mb-4 text-center text-white">
+        <div className="bg-white border border-neutral-light rounded-2xl shadow-card p-8 space-y-4">
+          <h2 className="text-3xl font-heading font-bold text-primary text-center mb-4">
             Get in Touch
           </h2>
 
-          {/* About Text */}
-          {contact.aboutText && (
-            <p className="text-neutral-200 text-sm">{contact.aboutText}</p>
-          )}
+          {contact.aboutText && <p className="text-neutral text-sm mb-4">{contact.aboutText}</p>}
 
-          {/* Phone */}
           {contact.phone?.length > 0 && (
-            <p className="flex items-center gap-2 text-sm text-neutral-100">
-              <FiPhone /> <strong>Phone:</strong> {contact.phone.join(", ")}
+            <p className="flex items-center gap-2 text-neutral text-sm">
+              <FiPhone className="text-primary" /> <b>Phone:</b> {contact.phone.join(", ")}
             </p>
           )}
-
-          {/* Email */}
           {contact.email?.length > 0 && (
-            <p className="flex items-center gap-2 text-sm text-neutral-100">
-              <FiMail /> <strong>Email:</strong> {contact.email.join(", ")}
+            <p className="flex items-center gap-2 text-neutral text-sm">
+              <FiMail className="text-primary" /> <b>Email:</b> {contact.email.join(", ")}
             </p>
           )}
-
-          {/* Address */}
           {contact.address?.length > 0 && (
-            <p className="flex items-center gap-2 text-sm text-neutral-100">
-              <FiMapPin /> <strong>Address:</strong> {contact.address.join(", ")}
+            <p className="flex items-center gap-2 text-neutral text-sm">
+              <FiMapPin className="text-primary" /> <b>Address:</b> {contact.address.join(", ")}
             </p>
           )}
-
-          {/* Working Hours */}
           {contact.workingHours && (
-            <p className="flex items-center gap-2 text-sm text-neutral-100">
-              <FiClock /> <strong>Working Hours:</strong> {contact.workingHours}
-            </p>
-          )}
-
-          {/* Map Link */}
-          {contact.mapLink && (
-            <p className="flex items-center gap-2 text-sm text-neutral-100">
-              <FiMapPin /> <strong>Map:</strong>{" "}
-              <a href={contact.mapLink} target="_blank" rel="noreferrer" className="text-blue-400 hover:underline">
-                View Map
-              </a>
-            </p>
-          )}
-
-          {/* YouTube */}
-          {contact.youtube && (
-            <p className="flex items-center gap-2 text-sm text-neutral-100">
-              <FiYoutube /> <strong>YouTube:</strong>{" "}
-              <a href={contact.youtube} target="_blank" rel="noreferrer" className="text-blue-400 hover:underline">
-                Watch
-              </a>
+            <p className="flex items-center gap-2 text-neutral text-sm">
+              <FiClock className="text-primary" /> <b>Working Hours:</b> {contact.workingHours}
             </p>
           )}
 
           {/* Social Links */}
           {contact.socialLinks?.length > 0 && (
-            <div className="flex gap-4 mt-2">
+            <div className="flex gap-4 justify-center pt-4 text-2xl">
               {contact.socialLinks.map((link, idx) => {
                 const Icon =
                   link.platform.toLowerCase() === "facebook"
@@ -126,7 +99,7 @@ export default function Contact() {
                     href={link.url || "#"}
                     target="_blank"
                     rel="noreferrer"
-                    className="hover:text-accent text-2xl"
+                    className="hover:text-primary transition"
                   >
                     <Icon />
                   </a>
@@ -137,22 +110,21 @@ export default function Contact() {
         </div>
       </motion.section>
 
-      {/* Closing Section */}
+      {/* CTA */}
       <motion.section
-        className="text-center text-white px-4 py-10 max-w-2xl mx-auto"
+        className="max-w-3xl mx-auto text-center py-16 px-6"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
+        transition={{ duration: 1 }}
       >
-        <h3 className="text-2xl font-heading font-semibold mb-2 text-white">
-          Let's Build Something Great Together
+        <h3 className="text-3xl font-heading font-semibold text-primary mb-3">
+          Let’s Build Something Great Together
         </h3>
-        <p className="text-base text-neutral-200 leading-relaxed">
-          Whether it’s a new project, partnership, or inquiry, we’re excited to
-          hear from you. Your vision deserves the best.
+        <p className="text-neutral text-lg leading-relaxed">
+          Whether it’s a new project, partnership, or inquiry, we’re excited to hear from you.  
+          Your vision deserves the best.
         </p>
       </motion.section>
-    </PageWrapper>
+    </div>
   );
 }

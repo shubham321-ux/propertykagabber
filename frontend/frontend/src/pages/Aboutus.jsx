@@ -1,17 +1,8 @@
 import { motion } from "framer-motion";
 import Seo from "../components/Seo";
-import PageWrapper from "../components/PageWrapper";
-import aboutBg from "../assets/homePic.jpg"; // you can replace with a new about image
+import aboutBg from "../assets/homePic.jpg"; // your existing hero image
 
 export default function About() {
-  const seoContent = {
-    title: "About Us - MySite",
-    description:
-      "Learn more about MySite — our story, mission, values, and the team dedicated to building exceptional real estate projects.",
-    keywords:
-      "about, real estate, builders, mission, team, company profile, construction",
-  };
-
   const story = {
     heading: "Our Story",
     description: `Founded over a decade ago, MySite has grown into a trusted name in real estate and construction.
@@ -25,22 +16,10 @@ export default function About() {
   };
 
   const values = [
-    {
-      title: "Integrity",
-      desc: "We value honesty and transparency in every project and partnership.",
-    },
-    {
-      title: "Innovation",
-      desc: "Our approach blends modern architecture with smart technologies for future-ready spaces.",
-    },
-    {
-      title: "Commitment",
-      desc: "Delivering on our promises with unwavering dedication to quality and timelines.",
-    },
-    {
-      title: "Customer Focus",
-      desc: "Your satisfaction drives us to craft better, smarter living and working environments.",
-    },
+    { title: "Integrity", desc: "We value honesty and transparency in every project and partnership." },
+    { title: "Innovation", desc: "Our approach blends modern architecture with smart technologies for future-ready spaces." },
+    { title: "Commitment", desc: "Delivering on our promises with unwavering dedication to quality and timelines." },
+    { title: "Customer Focus", desc: "Your satisfaction drives us to craft better, smarter living and working environments." },
   ];
 
   const achievements = [
@@ -51,105 +30,102 @@ export default function About() {
   ];
 
   return (
-    <PageWrapper bgImage={aboutBg} overlayOpacity={0.8}>
-     <Seo pageName="aboutUs" />
+    <div className="bg-white text-neutral-dark">
+      <Seo pageName="aboutUs" />
 
-
-      {/* Hero / Intro Section */}
+      {/* HERO SECTION */}
       <motion.section
-        className="text-center text-white px-6 max-w-4xl mx-auto py-16"
-        initial={{ opacity: 0, y: 40 }}
+        className="flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto py-20 px-6"
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: "easeOut" }}
+        transition={{ duration: 1 }}
       >
-        <h1 className="text-5xl font-heading font-bold mb-4 text-white">
-          About Us
-        </h1>
-        <p className="text-lg text-neutral-200 leading-relaxed">
-          Building trust, one project at a time — discover who we are and what
-          drives our passion for construction excellence.
-        </p>
+        {/* Left Text */}
+        <div className="md:w-1/2 text-center md:text-left space-y-5">
+          <h1 className="text-4xl md:text-5xl font-heading font-bold text-primary-dark">
+            About Us
+          </h1>
+          <p className="text-lg text-neutral leading-relaxed">
+            Building trust, one project at a time — discover who we are and what drives our passion for construction excellence.
+          </p>
+        </div>
+
+        {/* Right Image */}
+        <div className="md:w-1/2 mt-10 md:mt-0 flex justify-end">
+          <img
+            src={aboutBg}
+            alt="About us"
+            className="rounded-2xl shadow-card w-full md:w-[85%] object-cover"
+          />
+        </div>
       </motion.section>
 
-      {/* Our Story */}
+      {/* STORY SECTION */}
       <motion.section
-        className="text-center text-white px-6 max-w-5xl mx-auto py-12"
+        className="max-w-5xl mx-auto py-16 px-6 text-center"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
-        viewport={{ once: true }}
       >
-        <h2 className="text-4xl font-heading font-bold mb-4 text-white">
-          {story.heading}
-        </h2>
-        <p className="max-w-3xl mx-auto text-lg leading-relaxed text-neutral-200">
-          {story.description}
-        </p>
+        <h2 className="text-3xl md:text-4xl font-heading font-bold text-primary mb-6">{story.heading}</h2>
+        <p className="text-neutral text-lg leading-relaxed">{story.description}</p>
       </motion.section>
 
-      {/* Our Mission */}
+      {/* MISSION SECTION */}
       <motion.section
-        className="text-center text-white px-6 max-w-5xl mx-auto py-12"
+        className="max-w-5xl mx-auto py-16 px-6 text-center bg-neutral-light/40 rounded-2xl"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
-        viewport={{ once: true }}
       >
-        <h2 className="text-4xl font-heading font-bold mb-4 text-white">
-          {mission.heading}
-        </h2>
-        <p className="max-w-3xl mx-auto text-lg leading-relaxed text-neutral-200">
-          {mission.description}
-        </p>
+        <h2 className="text-3xl md:text-4xl font-heading font-bold text-primary mb-6">{mission.heading}</h2>
+        <p className="text-neutral text-lg leading-relaxed">{mission.description}</p>
       </motion.section>
 
-      {/* Our Values */}
+      {/* VALUES SECTION */}
       <motion.section
-        className="px-6 py-12 text-white"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, ease: "easeOut" }}
-        viewport={{ once: true }}
+        className="max-w-6xl mx-auto py-20 px-6 text-center"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 1 }}
       >
-        <h2 className="text-4xl font-heading font-bold text-center mb-8 text-white">
+        <h2 className="text-3xl md:text-4xl font-heading font-bold text-primary-dark mb-10">
           Our Core Values
         </h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-1 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {values.map((v, i) => (
-            <motion.div
+            <div
               key={i}
-              className="backdrop-blur-md bg-white/10 border border-white/20 p-6 rounded-xl text-center hover:bg-white/20 transition"
-              whileHover={{ scale: 1.05 }}
+              className="bg-white border border-neutral-light p-6 rounded-xl shadow-card hover:shadow-lg transition"
             >
-              <h3 className="text-2xl font-semibold mb-3">{v.title}</h3>
-              <p className="text-neutral-200">{v.desc}</p>
-            </motion.div>
+              <h3 className="text-xl font-semibold text-primary mb-2">{v.title}</h3>
+              <p className="text-neutral">{v.desc}</p>
+            </div>
           ))}
         </div>
       </motion.section>
 
-      {/* Achievements */}
+      {/* ACHIEVEMENTS SECTION */}
       <motion.section
-        className="text-white px-6 py-12 max-w-5xl mx-auto text-center"
+        className="max-w-5xl mx-auto py-20 px-6 text-center"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
-        viewport={{ once: true }}
       >
-        <h2 className="text-4xl font-heading font-bold mb-6 text-white">
+        <h2 className="text-3xl md:text-4xl font-heading font-bold text-primary-dark mb-8">
           Our Achievements
         </h2>
-        <ul className="space-y-3 text-lg text-neutral-200">
+        <ul className="space-y-4 text-neutral text-lg">
           {achievements.map((item, i) => (
             <li
               key={i}
-              className="backdrop-blur-sm bg-white/10 border border-white/10 p-4 rounded-lg hover:bg-white/20 transition"
+              className="bg-neutral-light/50 p-4 rounded-lg border border-neutral-light hover:bg-neutral-light transition"
             >
               {item}
             </li>
           ))}
         </ul>
       </motion.section>
-    </PageWrapper>
+    </div>
   );
 }
