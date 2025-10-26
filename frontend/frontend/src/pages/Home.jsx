@@ -87,16 +87,16 @@ export default function Home() {
   return (
     <>
       <Seo
-      pageName={'home'}
+        pageName={"home"}
         title="Property Ka Gabbar – No Commission. No Brokerage. Direct Deals from Owners"
         description="Buy or sell homes directly from owners in Mohali, Zirakpur, and Kharar — 100% transparent, zero brokerage property platform."
         keywords="Property Ka Gabbar, no brokerage homes, direct owner properties Mohali, property in Zirakpur, buy home without commission, real estate Tricity"
       />
 
-      {/* ✅ Hero Section */}
+      {/* Hero Section */}
       <Hero />
 
-      {/* ✅ About Property Ka Gabbar */}
+      {/* Property Ka Gabbar Intro */}
       <motion.section
         variants={fadeInUp}
         initial="hidden"
@@ -112,8 +112,7 @@ export default function Home() {
           <br />
           Buying or selling a home is one of the biggest decisions in life —
           but why should it come with heavy brokerage fees? At Property Ka
-          Gabbar, we’ve made real estate simple, transparent, and
-          commission-free.
+          Gabbar, we’ve made real estate simple, transparent, and commission-free.
         </p>
         <p className="max-w-3xl mx-auto text-neutral text-lg leading-relaxed">
           We connect buyers directly with genuine property owners so you can
@@ -124,7 +123,7 @@ export default function Home() {
         </p>
       </motion.section>
 
-      {/* ✅ About / Vision Section */}
+      {/* About Property Ka Gabbar */}
       <motion.section
         variants={fadeInUp}
         initial="hidden"
@@ -137,15 +136,19 @@ export default function Home() {
             About Property Ka Gabbar
           </h2>
           <p className="max-w-4xl mx-auto text-lg mb-6 leading-relaxed text-neutral">
-            Property Ka Gabbar was born with one simple idea — to end the
-            culture of high commissions and hidden charges in real estate. For
+            Property Ka Gabbar was born with one simple idea — to end the culture
+            of high commissions and hidden charges in the property market. For
             too long, buyers have been paying huge fees to middlemen for
             something that should be a direct, honest deal.
           </p>
           <p className="max-w-4xl mx-auto text-lg mb-6 leading-relaxed text-neutral">
-            Our platform connects buyers and sellers directly, helping you
-            discover verified listings, save thousands in brokerage, and enjoy
-            transparent communication with property owners.
+            Our platform brings owners and buyers face-to-face, cutting out the
+            middle layer completely. We help you:
+            <ul className="mt-4 list-disc list-inside text-left max-w-md mx-auto">
+              <li>Discover verified properties directly from owners</li>
+              <li>Save thousands in brokerage costs</li>
+              <li>Enjoy transparent communication and secure documentation</li>
+            </ul>
           </p>
           <h3 className="text-3xl font-bold text-primary-dark mt-10 mb-4">
             Our Vision
@@ -154,29 +157,32 @@ export default function Home() {
             To create a transparent and fair real estate ecosystem where every
             buyer and seller can deal directly — without fear of fraud, inflated
             prices, or hidden fees.
+            <br />
+            We aim to make Property Ka Gabbar the most trusted name in Tricity
+            real estate, known for honesty, simplicity, and reliability.
           </p>
         </div>
       </motion.section>
 
-      {/* ✅ Why Choose Property Ka Gabbar */}
+      {/* Why Choose Property Ka Gabbar */}
       <motion.section
         variants={fadeInUp}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true }}
-        className="py-20 px-6 bg-white text-center"
+        className="py-5 px-6 bg-white text-center"
       >
         <h2 className="text-4xl md:text-5xl font-heading font-bold mb-10 text-primary-dark">
           Why Choose <span className="text-accent">Property Ka Gabbar</span>
         </h2>
-        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto text-left">
           {[
-            "Zero Commission – You pay only for your home, not someone’s commission.",
-            "Verified Listings – Every property is personally verified by our team.",
-            "Local Expertise – Specialists in Mohali, Zirakpur, and Kharar.",
-            "Direct Owner Communication – No agents, no manipulation, just honest deals.",
-            "End-to-End Support – Assistance with documentation, visits, and verification.",
-            "Wide Range – From 2BHK to luxury 5BHK kothis and plots.",
+            "Zero Commission, 100% Transparency – You pay only for your home, not for someone else’s commission. Every deal is direct — clean, clear, and fair.",
+            "Verified Listings Only – Each property listed on our platform is personally verified by our team to ensure accuracy, legal clarity, and authenticity.",
+            "Local Expertise – We specialize in Mohali, Zirakpur, Kharar, and nearby areas — bringing you handpicked properties that match your lifestyle and budget.",
+            "Direct Owner Communication – No agents. No manipulation. You speak directly with the property owner to negotiate openly and finalize deals confidently.",
+            "End-to-End Assistance – While we don’t charge commission, we do help you with everything else — from documentation and property visits to price comparisons and ownership verification.",
+            "Wide Range of Properties – From affordable apartments to luxury kothis, from builder floors to plots — find every kind of property under one roof.",
           ].map((reason, i) => (
             <div
               key={i}
@@ -188,7 +194,7 @@ export default function Home() {
         </div>
       </motion.section>
 
-      {/* ✅ Featured Properties */}
+      {/* Featured Properties */}
       <motion.section
         variants={fadeInUp}
         initial="hidden"
@@ -200,8 +206,8 @@ export default function Home() {
           Explore Properties
         </h2>
         <p className="max-w-3xl mx-auto mb-12 text-neutral text-lg">
-          Find real homes, real prices, and real owners — no fake listings, no
-          hidden costs.
+          Looking for a peaceful family home? Or a modern duplex near the city?
+          We’ve got you covered.
         </p>
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
           {featuredProps.map((p) => (
@@ -210,7 +216,7 @@ export default function Home() {
         </div>
       </motion.section>
 
-      {/* ✅ Blogs Section */}
+      {/* Latest Blogs */}
       <motion.section
         variants={fadeInUp}
         initial="hidden"
@@ -228,7 +234,7 @@ export default function Home() {
         </div>
       </motion.section>
 
-      {/* ✅ Contact Section */}
+      {/* Contact Section */}
       <motion.section
         variants={fadeInUp}
         initial="hidden"
