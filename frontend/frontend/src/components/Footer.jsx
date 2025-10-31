@@ -22,13 +22,13 @@ export default function Footer() {
 
           <div className="mt-5 space-y-2 text-sm text-gray-300">
             {c.address?.length > 0 && (
-              <p>📍 {c.address.join(", ")}</p>
+              <p> {c.address.join(", ")}</p>
             )}
             {c.phone?.length > 0 && (
-              <p>📞 {c.phone.join(", ")}</p>
+              <p> {c.phone.join(", ")}</p>
             )}
             {c.email?.length > 0 && (
-              <p>📧 {c.email.join(", ")}</p>
+              <p> {c.email.join(", ")}</p>
             )}
           </div>
 
