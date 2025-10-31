@@ -3,15 +3,14 @@ import { motion } from "framer-motion";
 import { getProperties } from "../api/api";
 import PropertyCard from "../components/PropertyCard";
 import Seo from "../components/Seo";
-import PageWrapper from "../components/PageWrapper";
-import homeBg from "../assets/homePic.jpg";
+import SectionHeader from "../components/SectionHeader";
 
 export default function Properties() {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // ✅ Demo fallback
+  // ✅ Demo fallback data
   const demoProperties = [
     {
       id: "demo1",
@@ -23,14 +22,14 @@ export default function Properties() {
     {
       id: "demo2",
       title: "Modern Villa",
-      desc: "Spacious villa with greenery views.",
+      desc: "Spacious villa surrounded by lush greenery.",
       image: "https://source.unsplash.com/600x400/?villa",
       price: 35000000,
     },
     {
       id: "demo3",
       title: "Commercial Tower",
-      desc: "High-rise office space for enterprises.",
+      desc: "High-rise office space designed for modern enterprises.",
       image: "https://source.unsplash.com/600x400/?building",
       price: 52000000,
     },
@@ -54,49 +53,44 @@ export default function Properties() {
 
   return (
     <>
-      <Seo pageName="properties" />
+      <Seo pageName="Properties" />
 
-      {/* HERO / HEADER */}
+      {/* Section Wrapper */}
       <motion.section
-        className="max-w-6xl mx-auto text-center py-24 px-6"
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: "easeOut" }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="bg-neutral-light min-h-screen py-24 px-6 mt-20"
       >
-        <h1 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-primary-dark">
-          Explore Our Premium Properties
-        </h1>
-        <p className="max-w-3xl mx-auto text-neutral text-lg">
-          Discover beautifully crafted homes and commercial spaces built with
-          innovation, elegance, and trust.
-        </p>
-      </motion.section>
+        {/* Header */}
+        <SectionHeader
+          subtitle="Featured Listings"
+          title="Explore Our Premium Properties"
+          description="Browse through our curated collection of residential and commercial spaces — 
+          handpicked for design, comfort, and long-term value."
+        />
 
-      {/* GRID SECTION */}
-      <motion.section
-        className="bg-white px-6 pb-24"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, ease: "easeOut" }}
-      >
-        {loading ? (
-          <div className="text-center text-neutral text-lg py-20">
-            Loading properties...
-          </div>
-        ) : error ? (
-          <div className="text-center text-red-500 text-lg py-20">{error}</div>
-        ) : properties.length === 0 ? (
-          <div className="text-center text-neutral text-lg py-20">
-            No properties available.
-          </div>
-        ) : (
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
-            {properties.map((p) => (
-              <PropertyCard key={p._id || p.id} property={p} />
-            ))}
-          </div>
-        )}
+        {/* Grid / Content */}
+        <div className="max-w-6xl mx-auto mt-16">
+          {loading ? (
+            <div className="text-center text-gray-600 text-lg py-20">
+              Loading properties...
+            </div>
+          ) : error ? (
+            <div className="text-center text-red-500 text-lg py-20">{error}</div>
+          ) : properties.length === 0 ? (
+            <div className="text-center text-gray-600 text-lg py-20">
+              No properties available at the moment.
+            </div>
+          ) : (
+            <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+              {properties.map((p) => (
+                <PropertyCard key={p._id || p.id} property={p} />
+              ))}
+            </div>
+          )}
+        </div>
       </motion.section>
-   </>
+    </>
   );
 }

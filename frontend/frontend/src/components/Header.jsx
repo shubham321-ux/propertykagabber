@@ -24,7 +24,7 @@ export default function Header() {
     { path: "/", label: "Home" },
     { path: "/properties", label: "Properties" },
     { path: "/blogs", label: "Blog" },
-    { path: "/contact", label: "Contact" },
+    { path: "/about-us", label: "About" },
   ];
 
   return (

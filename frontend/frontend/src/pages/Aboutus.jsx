@@ -1,63 +1,86 @@
 import { motion } from "framer-motion";
 import Seo from "../components/Seo";
-import aboutBg from "../assets/homePic.jpg"; // your existing hero image
-import property2 from "../assets/property2.jpg"
+import SectionHeader from "../components/SectionHeader";
+import property2 from "../assets/property2.jpg";
+
 export default function About() {
   const story = {
     heading: "Our Story",
-    description: `Founded over a decade ago, MySite has grown into a trusted name in real estate and construction.
-    With a commitment to excellence and customer satisfaction, we have delivered premium homes, commercial spaces, and landmark projects that redefine quality and innovation.`,
+    description: `PropertyKaGabbar began with one mission — to make real estate simple, transparent, and commission-free. 
+    What started as a small team in Mohali with deep local expertise has grown into a trusted platform for direct property transactions across Tricity — Mohali, Zirakpur, and Kharar. 
+    We empower property owners and buyers to connect directly, eliminating brokers and ensuring that every deal is transparent, verified, and secure.`,
   };
 
   const mission = {
     heading: "Our Mission",
-    description: `To create sustainable, high-quality spaces that enrich lives. 
-    We believe in designing structures that combine aesthetics, functionality, and eco-conscious development.`,
+    description: `To redefine how people buy, sell, and rent properties by offering a platform that is direct, verified, and trustworthy. 
+    Our mission is to empower every property owner and buyer with the tools, transparency, and support they need to make confident real estate decisions.`,
   };
 
   const values = [
-    { title: "Integrity", desc: "We value honesty and transparency in every project and partnership." },
-    { title: "Innovation", desc: "Our approach blends modern architecture with smart technologies for future-ready spaces." },
-    { title: "Commitment", desc: "Delivering on our promises with unwavering dedication to quality and timelines." },
-    { title: "Customer Focus", desc: "Your satisfaction drives us to craft better, smarter living and working environments." },
+    {
+      title: "Integrity",
+      desc: "We operate with transparency and honesty, ensuring our clients receive complete clarity at every step.",
+    },
+    {
+      title: "Innovation",
+      desc: "We leverage modern technology and verified data to make property discovery and management easier than ever.",
+    },
+    {
+      title: "Commitment",
+      desc: "Our team is dedicated to quality, professionalism, and reliability — building long-term trust with every interaction.",
+    },
+    {
+      title: "Customer Focus",
+      desc: "Your satisfaction drives us. We prioritize your needs to deliver a seamless and genuine real estate experience.",
+    },
   ];
 
   const achievements = [
-    "10+ years of excellence in real estate and construction.",
-    "Over 50 successful residential and commercial projects completed.",
-    "Award-winning designs recognized for innovation and sustainability.",
-    "A strong community of happy homeowners and satisfied clients.",
+    "10+ years of combined experience in real estate and consulting.",
+    "1000+ verified listings across Mohali, Zirakpur, and Kharar.",
+    "Introduced zero-brokerage property transactions in Tricity.",
+    "Trusted by thousands for secure, transparent property dealings.",
   ];
 
   return (
-    <div className="bg-white text-neutral-dark">
-      <Seo pageName="aboutUs" />
+    <div className="bg-neutral-light text-neutral-dark min-h-screen mt-28">
+      <Seo
+        pageName="About Us"
+        title="About – PropertyKaGabbar | Redefining Real Estate in Tricity"
+        description="Discover how PropertyKaGabbar is transforming real estate in Mohali, Zirakpur, and Kharar — with verified listings, zero brokerage, and direct owner connections."
+        keywords="PropertyKaGabbar, about PropertyKaGabbar, real estate Mohali, zero brokerage, verified property, buy home Zirakpur, Kharar real estate"
+      />
 
       {/* HERO SECTION */}
       <motion.section
-        className="flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto py-20 px-6"
-        initial={{ opacity: 0, y: 30 }}
+        className="max-w-7xl mx-auto px-6 py-16 flex flex-col md:flex-row items-center justify-between gap-10"
+        initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
       >
         {/* Left Text */}
-        <div className="md:w-1/2 text-center md:text-left space-y-5">
-          <h1 className="text-4xl md:text-5xl font-heading font-bold text-primary-dark">
-            About Us
-          </h1>
-          <p className="text-lg text-neutral leading-relaxed">
-            Building trust, one project at a time — discover who we are and what drives our passion for construction excellence.
-          </p>
+        <div className="md:w-1/2 space-y-6 text-center md:text-left">
+          <SectionHeader
+            subtitle="About Us"
+            title="Building Trust, One Home at a Time"
+            description="At PropertyKaGabbar, we’re reshaping real estate through verified listings, direct owner connections, and complete transparency — ensuring every transaction is fair, fast, and stress-free."
+          />
         </div>
 
         {/* Right Image */}
-        <div className="md:w-1/2 mt-10 md:mt-0 flex justify-end">
+        <motion.div
+          className="md:w-1/2"
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+        >
           <img
-            src={property2 }
-            alt="About us"
-            className="rounded-2xl shadow-card w-full md:w-[85%] object-cover"
+            src={property2}
+            alt="About PropertyKaGabbar"
+            className="rounded-2xl w-full object-cover h-[380px] md:h-[420px]"
           />
-        </div>
+        </motion.div>
       </motion.section>
 
       {/* STORY SECTION */}
@@ -67,19 +90,25 @@ export default function About() {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <h2 className="text-3xl md:text-4xl font-heading font-bold text-primary mb-6">{story.heading}</h2>
-        <p className="text-neutral text-lg leading-relaxed">{story.description}</p>
+        <SectionHeader
+          subtitle="Our Story"
+          title={story.heading}
+          description={story.description}
+        />
       </motion.section>
 
       {/* MISSION SECTION */}
       <motion.section
-        className="max-w-5xl mx-auto py-16 px-6 text-center bg-neutral-light/40 rounded-2xl"
+        className="max-w-5xl mx-auto py-16 px-6 text-center bg-white rounded-2xl border border-neutral-light shadow-sm"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <h2 className="text-3xl md:text-4xl font-heading font-bold text-primary mb-6">{mission.heading}</h2>
-        <p className="text-neutral text-lg leading-relaxed">{mission.description}</p>
+        <SectionHeader
+          subtitle="Our Mission"
+          title={mission.heading}
+          description={mission.description}
+        />
       </motion.section>
 
       {/* VALUES SECTION */}
@@ -89,17 +118,19 @@ export default function About() {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <h2 className="text-3xl md:text-4xl font-heading font-bold text-primary-dark mb-10">
+        <h2 className="text-3xl md:text-4xl font-heading font-bold text-gray-800 mb-12">
           Our Core Values
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {values.map((v, i) => (
             <div
               key={i}
-              className="bg-white border border-neutral-light p-6 rounded-xl shadow-card hover:shadow-lg transition"
+              className="bg-white border border-neutral-light p-6 rounded-xl hover:shadow-md transition"
             >
-              <h3 className="text-xl font-semibold text-primary mb-2">{v.title}</h3>
-              <p className="text-neutral">{v.desc}</p>
+              <h3 className="text-xl font-semibold text-gray-800 mb-3">
+                {v.title}
+              </h3>
+              <p className="text-neutral leading-relaxed text-base">{v.desc}</p>
             </div>
           ))}
         </div>
@@ -112,14 +143,14 @@ export default function About() {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <h2 className="text-3xl md:text-4xl font-heading font-bold text-primary-dark mb-8">
+        <h2 className="text-3xl md:text-4xl font-heading font-bold text-gray-800 mb-10">
           Our Achievements
         </h2>
         <ul className="space-y-4 text-neutral text-lg">
           {achievements.map((item, i) => (
             <li
               key={i}
-              className="bg-neutral-light/50 p-4 rounded-lg border border-neutral-light hover:bg-neutral-light transition"
+              className="bg-white p-5 rounded-xl border border-neutral-light hover:bg-neutral-light transition"
             >
               {item}
             </li>

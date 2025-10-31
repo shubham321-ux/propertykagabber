@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Seo from "../components/Seo";
 import BlogCard from "../components/BlogCard";
-import PageWrapper from "../components/PageWrapper";
 import { getBlogs } from "../api/api";
-import homeBg from "../assets/homePic.jpg";
+import SectionHeader from "../components/SectionHeader";
 
 export default function Blogs() {
   const [blogs, setBlogs] = useState([]);
@@ -50,48 +49,49 @@ export default function Blogs() {
 
   return (
     <>
-      <Seo pageName="blog" />
+      <Seo pageName="Blogs" />
 
-      {/* HERO */}
+      {/* MAIN SECTION */}
       <motion.section
-        className="max-w-6xl mx-auto text-center py-24 px-6"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, ease: "easeOut" }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="bg-neutral-light min-h-screen py-24 px-6 mt-20"
       >
-        <h1 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-primary-dark">
-          Our Latest Insights & Blogs
-        </h1>
-        <p className="max-w-3xl mx-auto text-neutral text-lg">
-          Stay inspired with stories and ideas from experts in architecture,
-          interior design, and construction.
-        </p>
-      </motion.section>
+        {/* Header */}
+        <SectionHeader
+          subtitle="Our Insights"
+          title="Latest Articles & Industry Trends"
+          description="Stay inspired with stories and ideas from experts in architecture, interior design, and modern development."
+        />
 
-      {/* GRID */}
-      <motion.section
-        className="bg-white px-6 pb-24"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, ease: "easeOut" }}
-      >
-        {loading ? (
-          <div className="text-center text-neutral text-lg py-20">
-            Loading blogs...
-          </div>
-        ) : error ? (
-          <div className="text-center text-red-500 text-lg py-20">{error}</div>
-        ) : blogs.length === 0 ? (
-          <div className="text-center text-neutral text-lg py-20">
-            No blogs available.
-          </div>
-        ) : (
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
-            {blogs.map((b) => (
-              <BlogCard key={b._id || b.id} blog={b} />
-            ))}
-          </div>
-        )}
+        {/* Content */}
+        <div className="max-w-6xl mx-auto mt-16">
+          {loading ? (
+            <div className="text-center text-gray-600 text-lg py-20">
+              Loading blogs...
+            </div>
+          ) : error ? (
+            <div className="text-center text-red-500 text-lg py-20">{error}</div>
+          ) : blogs.length === 0 ? (
+            <div className="text-center text-gray-600 text-lg py-20">
+              No blogs available at the moment.
+            </div>
+          ) : (
+            <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+              {blogs.map((b, index) => (
+                <motion.div
+                  key={b._id || b.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.15, duration: 0.6 }}
+                >
+                  <BlogCard blog={b} />
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </div>
       </motion.section>
     </>
   );
