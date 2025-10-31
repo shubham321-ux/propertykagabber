@@ -37,7 +37,7 @@ export default function Header() {
         {/* Logo */}
         <div className="flex items-center gap-2">
           <Logo size={45} />
-          <span className="text-2xl font-bold text-orange-500">Quarter</span>
+          <span className="text-2xl font-bold text-orange-500">Gabber</span>
         </div>
 
         {/* Desktop Menu */}
