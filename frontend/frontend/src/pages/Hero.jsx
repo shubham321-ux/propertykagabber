@@ -17,7 +17,7 @@ export default function Hero() {
         >
           <h1 className="text-2.5xl md:text-2xl font-heading font-bold text-primary-dark leading-tight">
             <h1 className="text-2xl md:text-4xl font-heading font-bold text-primary-dark leading-tight"> Property Ka Gabbar </h1>
-           <br />
+        
             <span className="text-accent">No Commission. No Brokerage. Direct Deals from Owners</span>
           </h1>
           <p className="text-lg text-neutral text-balance max-w-md mx-auto md:mx-0">

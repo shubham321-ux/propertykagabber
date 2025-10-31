@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { getPages, createPage, updatePage, deletePage } from "../../api/api";
 import { Eye, Edit2, Trash2 } from "lucide-react";
+import AdminActionLoader from "../../components/AdminActionLoader";
 
 export default function ManagePages() {
   const [pages, setPages] = useState([]);
   const [open, setOpen] = useState(false);
   const [viewPage, setViewPage] = useState(null);
   const [editing, setEditing] = useState(null);
+  const [saving, setSaving] = useState(false);
+  
 
   const [form, setForm] = useState({
     name: "",
@@ -62,6 +65,7 @@ export default function ManagePages() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSaving(true);
     try {
       if (editing) {
         await updatePage(editing, form);
@@ -89,11 +93,14 @@ export default function ManagePages() {
       loadPages();
     } catch (err) {
       console.error("Error deleting page:", err);
-    }
+    }finally {
+    setSaving(false);
+  }
   };
 
   return (
     <div className="max-w-[1400px] mx-auto p-6">
+       {saving && <AdminActionLoader text={editing ? "Updating Page..." : "Adding Page..."} />}
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-primary">Manage Pages</h2>

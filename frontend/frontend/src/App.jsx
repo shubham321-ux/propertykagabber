@@ -5,6 +5,7 @@ import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
+import Loader from "./components/Loader";
 
 // Lazy load pages
 const Login = lazy(() => import("./pages/Login"));
@@ -25,8 +26,8 @@ const AdminBlogs = lazy(() => import("./pages/admin/Blogs"));
 const AdminContact = lazy(() => import("./pages/admin/Contact"));
 const ManagePages = lazy(() => import("./pages/admin/ManagePages"));
 
-// Loading fallback
-const Loader = () => <div className="text-center py-10">Loading...</div>;
+
+
 
 // Public Layout
 function PublicLayout() {

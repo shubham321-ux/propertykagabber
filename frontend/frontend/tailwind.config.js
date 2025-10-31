@@ -29,8 +29,10 @@ export default {
         },
       },
       fontFamily: {
-        sans: ["'SUSE Mono'", "system-ui", "sans-serif"],  // 👈 your new default
-        heading: ["'SUSE Mono'", "sans-serif"],            // 👈 headings too
+        // sans: ["'SUSE Mono'", "system-ui", "sans-serif"],  // 👈 your new default
+        // heading: ["'SUSE Mono'", "sans-serif"],            // 👈 headings too
+         sans: [ "system-ui", "sans-serif"],  // 👈 your new default
+        heading: [ "sans-serif"],  
       },
       boxShadow: {
         card: "0 4px 12px rgba(0,0,0,0.08)",

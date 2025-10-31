@@ -1,44 +1,47 @@
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 
 export default function BlogCard({ blog }) {
   const [imgError, setImgError] = useState(false);
-  const imageUrl = blog._id ? `${blog.image}` : blog.image;
+
+  const imageUrl = blog?.image || "";
+  const blogId = blog?._id || blog?.id;
+  const title = blog?.title || "Untitled Blog";
+  const content = blog?.content || blog?.desc || "No content available.";
 
   return (
     <motion.div
-      className="bg-white border border-neutral/20 rounded-2xl shadow-card overflow-hidden flex flex-col hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
       whileHover={{ scale: 1.02 }}
+      transition={{ type: "spring", stiffness: 200, damping: 18 }}
+      className="relative group overflow-hidden h-80 bg-neutral-800 rounded-md shadow-md hover:shadow-lg"
     >
+      {/* Background Image */}
       {!imgError && imageUrl ? (
         <img
           src={imageUrl}
-          alt={blog.title}
-          loading="lazy"
+          alt={title}
           onError={() => setImgError(true)}
-          className="w-full h-44 object-cover"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
       ) : (
-        <div className="w-full h-44 bg-neutral-light flex items-center justify-center text-neutral">
+        <div className="absolute inset-0 flex items-center justify-center bg-neutral-700 text-neutral-200">
           No Image
         </div>
       )}
 
-      <div className="p-5 flex flex-col flex-1">
-        <h3 className="text-xl font-semibold mb-2 text-primary-dark">
-          {blog.title}
-        </h3>
-        <p className="text-sm text-neutral mb-3 line-clamp-3">
-          {(blog.content || blog.desc)?.slice(0, 120) ||
-            "No content available."}
-        </p>
+      {/* Reduced black overlay */}
+      <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-all duration-300"></div>
 
+      {/* Text content */}
+      <div className="absolute bottom-0 left-0 w-full p-6 z-10 flex flex-col justify-end h-full text-white">
+        <h3 className="text-2xl text-gray-200  font-semibold mb-2 leading-snug">{title}</h3>
+        <p className="text-sm text-gray-200 mb-4 line-clamp-2">{content}</p>
         <Link
-          to={blog._id ? `/blogs/${blog._id}` : "/blogs"}
-          className="mt-auto inline-block px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary-dark transition"
+          to={blogId ? `/blogs/${blogId}` : "/blogs"}
+          className="inline-block text-orange-400 font-medium text-sm hover:underline transition"
         >
-          {blog._id ? "Read More →" : "Explore Blogs →"}
+          Read More →
         </Link>
       </div>
     </motion.div>

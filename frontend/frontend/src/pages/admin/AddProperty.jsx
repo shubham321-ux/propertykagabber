@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createProperty } from "../../api/api";
+import AdminActionLoader from "../../components/AdminActionLoader";
 
 export default function AddProperty({ onSuccess }) {
   const [form, setForm] = useState({
@@ -11,6 +12,7 @@ export default function AddProperty({ onSuccess }) {
   const [images, setImages] = useState([]);
   const [video, setVideo] = useState(null);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false); // ✅ new state
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -18,6 +20,7 @@ export default function AddProperty({ onSuccess }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // ✅ show loader
 
     const formData = new FormData();
     formData.append("title", form.title);
@@ -38,11 +41,16 @@ export default function AddProperty({ onSuccess }) {
     } catch (err) {
       console.error(err);
       setMessage("❌ Error creating property");
+    } finally {
+      setLoading(false); // ✅ hide loader
     }
   };
 
   return (
-    <div className="max-w-[800px] mx-auto bg-white shadow-lg rounded-lg p-6">
+    <div className="relative max-w-[800px] mx-auto bg-white shadow-lg rounded-lg p-6">
+      {/* ✅ Loader Overlay */}
+      {loading && <AdminActionLoader message="Adding Property..." />}
+
       <h2 className="text-2xl font-bold text-primary mb-4">Add New Property</h2>
 
       {message && (
@@ -60,7 +68,7 @@ export default function AddProperty({ onSuccess }) {
         encType="multipart/form-data"
         className="space-y-4"
       >
-        {/* Title */}
+        {/* Inputs... same as before */}
         <input
           type="text"
           name="title"
@@ -71,7 +79,6 @@ export default function AddProperty({ onSuccess }) {
           className="w-full border rounded px-3 py-2"
         />
 
-        {/* Description */}
         <textarea
           name="description"
           placeholder="Description"
@@ -81,7 +88,6 @@ export default function AddProperty({ onSuccess }) {
           className="w-full border rounded px-3 py-2"
         />
 
-        {/* Price */}
         <input
           type="number"
           name="price"
@@ -92,7 +98,6 @@ export default function AddProperty({ onSuccess }) {
           className="w-full border rounded px-3 py-2"
         />
 
-        {/* Location */}
         <input
           type="text"
           name="location"
@@ -102,7 +107,7 @@ export default function AddProperty({ onSuccess }) {
           className="w-full border rounded px-3 py-2"
         />
 
-        {/* Images Upload */}
+        {/* Image Upload */}
         <div>
           <label className="block mb-1 font-medium">Images</label>
           <input
@@ -111,8 +116,6 @@ export default function AddProperty({ onSuccess }) {
             onChange={(e) => setImages(Array.from(e.target.files))}
             className="w-full"
           />
-
-          {/* Preview Selected Images */}
           {images.length > 0 && (
             <div className="flex gap-2 flex-wrap mt-2">
               {images.map((file, idx) => (
@@ -136,8 +139,6 @@ export default function AddProperty({ onSuccess }) {
             onChange={(e) => setVideo(e.target.files[0])}
             className="w-full"
           />
-
-          {/* Preview Selected Video */}
           {video && (
             <div className="mt-2">
               <video

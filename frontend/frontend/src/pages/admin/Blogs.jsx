@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getBlogs, createBlog, deleteBlog, updateBlog } from "../../api/api";
 import { Eye, Edit2, Trash2 } from "lucide-react";
+import AdminActionLoader from "../../components/AdminActionLoader"; // ✅ import loader
 
 export default function AdminBlogs() {
   const [blogs, setBlogs] = useState([]);
@@ -8,6 +9,7 @@ export default function AdminBlogs() {
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState(false); // ✅ new state
 
   // Modal states
   const [editBlog, setEditBlog] = useState(null);
@@ -35,6 +37,7 @@ export default function AdminBlogs() {
   // ✅ Create Blog
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setActionLoading(true); // show loader
     const formData = new FormData();
     formData.append("title", form.title);
     formData.append("description", form.description);
@@ -51,12 +54,15 @@ export default function AdminBlogs() {
     } catch (err) {
       console.error(err);
       alert("❌ Failed to create blog");
+    } finally {
+      setActionLoading(false);
     }
   };
 
   // ✅ Delete Blog
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this blog?")) return;
+    setActionLoading(true);
     try {
       await deleteBlog(id);
       setBlogs((prev) => prev.filter((b) => b._id !== id));
@@ -64,6 +70,8 @@ export default function AdminBlogs() {
     } catch (err) {
       console.error(err);
       alert("❌ Failed to delete blog");
+    } finally {
+      setActionLoading(false);
     }
   };
 
@@ -71,6 +79,7 @@ export default function AdminBlogs() {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     if (!editBlog) return;
+    setActionLoading(true);
 
     const formData = new FormData();
     formData.append("title", editBlog.title);
@@ -90,6 +99,8 @@ export default function AdminBlogs() {
     } catch (err) {
       console.error(err);
       alert("❌ Failed to update blog");
+    } finally {
+      setActionLoading(false);
     }
   };
 
@@ -101,7 +112,10 @@ export default function AdminBlogs() {
   };
 
   return (
-    <div className="max-w-[1400px] mx-auto p-6">
+    <div className="relative max-w-[1400px] mx-auto p-6">
+      {/* ✅ Global Overlay Loader */}
+      {actionLoading && <AdminActionLoader message="Processing Blog..." />}
+
       <h2 className="text-2xl font-bold text-primary mb-6">Manage Blogs</h2>
 
       {/* Add Blog Form */}

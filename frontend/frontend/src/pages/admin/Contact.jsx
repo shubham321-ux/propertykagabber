@@ -15,7 +15,7 @@ export default function AdminContact() {
     aboutText: "",
     workingHours: "",
   });
-
+const [saving, setSaving] = useState(false);
   // ✅ Load contact data from backend
   const loadContact = async () => {
     try {
@@ -72,6 +72,7 @@ export default function AdminContact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+      setSaving(true);
     try {
       const payload = { ...form };
       if (contact?._id) {
@@ -83,11 +84,14 @@ export default function AdminContact() {
       setOpen(false);
     } catch (err) {
       console.error("Error saving contact:", err);
-    }
+    }finally {
+    setSaving(false);
+  }
   };
 
   return (
     <div className="max-w-[1200px] mx-auto p-4 sm:p-6">
+      {saving && <AdminActionLoader text="Saving Contact Info..." />}
       <div className="flex justify-between items-center mb-4 sm:mb-6">
         <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
           📞 Manage Contact Info
