@@ -110,22 +110,22 @@ export default function Footer() {
           </h4>
           <ul className="space-y-2 text-gray-400 text-sm">
             <li>
-              <Link to="/faq" className="hover:text-orange-400">
+              <Link to="/" className="hover:text-orange-400">
                 FAQ
               </Link>
             </li>
             <li>
-              <Link to="/terms" className="hover:text-orange-400">
+              <Link to="/" className="hover:text-orange-400">
                 Terms & Conditions
               </Link>
             </li>
             <li>
-              <Link to="/privacy" className="hover:text-orange-400">
+              <Link to="/" className="hover:text-orange-400">
                 Privacy Policy
               </Link>
             </li>
             <li>
-              <Link to="/contact" className="hover:text-orange-400">
+              <Link to="/" className="hover:text-orange-400">
                 Support
               </Link>
             </li>
@@ -138,11 +138,11 @@ export default function Footer() {
         <p>
           © {new Date().getFullYear()} PropertyKaGabbar. All rights reserved.
           &nbsp;|&nbsp;
-          <Link to="/terms" className="hover:text-orange-400">
+          <Link to="/" className="hover:text-orange-400">
             Terms of Use
           </Link>
           &nbsp;|&nbsp;
-          <Link to="/privacy" className="hover:text-orange-400">
+          <Link to="/" className="hover:text-orange-400">
             Privacy Policy
           </Link>
         </p>
