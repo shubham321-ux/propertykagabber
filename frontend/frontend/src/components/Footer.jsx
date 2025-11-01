@@ -10,8 +10,8 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#0f172a] text-white py-16">
+      {/* Main Grid Section */}
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-10">
-
         {/* 1️⃣ About / Contact Info */}
         <div>
           <Logo size={50} />
@@ -21,15 +21,9 @@ export default function Footer() {
           </p>
 
           <div className="mt-5 space-y-2 text-sm text-gray-300">
-            {c.address?.length > 0 && (
-              <p> {c.address.join(", ")}</p>
-            )}
-            {c.phone?.length > 0 && (
-              <p> {c.phone.join(", ")}</p>
-            )}
-            {c.email?.length > 0 && (
-              <p> {c.email.join(", ")}</p>
-            )}
+            {c.address?.length > 0 && <p>{c.address.join(", ")}</p>}
+            {c.phone?.length > 0 && <p>{c.phone.join(", ")}</p>}
+            {c.email?.length > 0 && <p>{c.email.join(", ")}</p>}
           </div>
 
           {/* Social Links */}
@@ -91,13 +85,13 @@ export default function Footer() {
           <p className="text-gray-400 text-sm mb-4">
             Subscribe to get our latest property updates and real estate news.
           </p>
-          <div className="flex">
+          <div className="flex flex-col sm:flex-row w-full">
             <input
               type="email"
               placeholder="Enter your email"
-              className="px-3 py-2 rounded-l bg-gray-800 text-gray-200 w-full focus:outline-none"
+              className="px-3 py-2 rounded-t sm:rounded-l sm:rounded-t-none bg-gray-800 text-gray-200 w-full focus:outline-none"
             />
-            <button className="bg-orange-500 px-4 py-2 rounded-r font-medium hover:bg-orange-600 transition">
+            <button className="bg-orange-500 px-4 py-2 rounded-b sm:rounded-r sm:rounded-b-none font-medium hover:bg-orange-600 transition">
               Subscribe
             </button>
           </div>
@@ -133,19 +127,22 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom Strip */}
-      <div className="border-t border-gray-700 mt-12 pt-6 text-center text-gray-500 text-sm">
-        <p>
-          © {new Date().getFullYear()} PropertyKaGabbar. All rights reserved.
-          &nbsp;|&nbsp;
-          <Link to="/" className="hover:text-orange-400">
-            Terms of Use
-          </Link>
-          &nbsp;|&nbsp;
-          <Link to="/" className="hover:text-orange-400">
-            Privacy Policy
-          </Link>
-        </p>
+      {/* ✅ Bottom Strip (Fully Responsive) */}
+      <div className="border-t border-gray-700 mt-12 pt-6 px-4">
+        <div className="flex flex-col sm:flex-row justify-between items-center text-gray-500 text-sm text-center gap-2 sm:gap-0">
+          <p>
+            © {new Date().getFullYear()} PropertyKaGabbar. All rights reserved.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-5 mt-1 sm:mt-0">
+            <Link to="/" className="hover:text-orange-400">
+              Terms of Use
+            </Link>
+            <span className="hidden sm:inline">|</span>
+            <Link to="/" className="hover:text-orange-400">
+              Privacy Policy
+            </Link>
+          </div>
+        </div>
       </div>
     </footer>
   );

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import Seo from "../components/Seo";
-import SectionHeader from "../components/SectionHeader";
 import property2 from "../assets/property2.jpg";
+import LazyImage from "../components/LazyImage";
 
 export default function About() {
   const story = {
@@ -57,80 +57,90 @@ export default function About() {
         className="max-w-7xl mx-auto px-6 py-16 flex flex-col md:flex-row items-center justify-between gap-10"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
       >
         {/* Left Text */}
-        <div className="md:w-1/2 space-y-6 text-center md:text-left">
-          <SectionHeader
-            subtitle="About Us"
-            title="Building Trust, One Home at a Time"
-            description="At PropertyKaGabbar, we’re reshaping real estate through verified listings, direct owner connections, and complete transparency — ensuring every transaction is fair, fast, and stress-free."
-          />
+        <div className="md:w-1/2 space-y-6 text-left">
+          <h5 className="text-orange-500 font-semibold tracking-wide uppercase">
+            About Us
+          </h5>
+          <h1 className="text-3xl md:text-5xl font-bold text-gray-800 leading-tight">
+            Building Trust, One Home at a Time
+          </h1>
+          <p className="text-gray-600 text-base md:text-lg leading-relaxed">
+            At PropertyKaGabbar, we’re reshaping real estate through verified
+            listings, direct owner connections, and complete transparency —
+            ensuring every transaction is fair, fast, and stress-free.
+          </p>
         </div>
 
-        {/* Right Image */}
+        {/* Right Image (Lazy Loaded) */}
         <motion.div
           className="md:w-1/2"
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <img
+          <LazyImage
             src={property2}
             alt="About PropertyKaGabbar"
-            className="rounded-2xl w-full object-cover h-[380px] md:h-[420px]"
+            className="rounded-1xl w-full object-cover h-[360px] md:h-[420px] shadow-lg"
           />
         </motion.div>
       </motion.section>
 
       {/* STORY SECTION */}
       <motion.section
-        className="max-w-5xl mx-auto py-16 px-6 text-center"
+        className="max-w-5xl mx-auto py-16 px-6 text-left md:text-center"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <SectionHeader
-          subtitle="Our Story"
-          title={story.heading}
-          description={story.description}
-        />
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
+          {story.heading}
+        </h2>
+        <p className="text-gray-600 text-base md:text-lg leading-relaxed max-w-3xl mx-auto">
+          {story.description}
+        </p>
       </motion.section>
 
       {/* MISSION SECTION */}
       <motion.section
-        className="max-w-5xl mx-auto py-16 px-6 text-center bg-white rounded-2xl border border-neutral-light shadow-sm"
+        className="max-w-5xl mx-auto py-16 px-6 text-left md:text-center bg-white rounded-2xl border border-neutral-200 shadow-sm"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <SectionHeader
-          subtitle="Our Mission"
-          title={mission.heading}
-          description={mission.description}
-        />
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
+          {mission.heading}
+        </h2>
+        <p className="text-gray-600 text-base md:text-lg leading-relaxed max-w-3xl mx-auto">
+          {mission.description}
+        </p>
       </motion.section>
 
       {/* VALUES SECTION */}
       <motion.section
-        className="max-w-6xl mx-auto py-20 px-6 text-center"
+        className="max-w-6xl mx-auto py-20 px-6 text-left md:text-center"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <h2 className="text-3xl md:text-4xl font-heading font-bold text-gray-800 mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-12">
           Our Core Values
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {values.map((v, i) => (
             <div
               key={i}
-              className="bg-white border border-neutral-light p-6 rounded-xl hover:shadow-md transition"
+              className="bg-white border border-neutral-200 p-6 rounded-xl hover:shadow-md transition text-left"
             >
               <h3 className="text-xl font-semibold text-gray-800 mb-3">
                 {v.title}
               </h3>
-              <p className="text-neutral leading-relaxed text-base">{v.desc}</p>
+              <p className="text-gray-600 text-base leading-relaxed">
+                {v.desc}
+              </p>
             </div>
           ))}
         </div>
@@ -138,19 +148,19 @@ export default function About() {
 
       {/* ACHIEVEMENTS SECTION */}
       <motion.section
-        className="max-w-5xl mx-auto py-20 px-6 text-center"
+        className="max-w-5xl mx-auto py-20 px-6 text-left md:text-center mb-24"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <h2 className="text-3xl md:text-4xl font-heading font-bold text-gray-800 mb-10">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-10">
           Our Achievements
         </h2>
-        <ul className="space-y-4 text-neutral text-lg">
+        <ul className="space-y-4 text-gray-700 text-lg max-w-3xl mx-auto">
           {achievements.map((item, i) => (
             <li
               key={i}
-              className="bg-white p-5 rounded-xl border border-neutral-light hover:bg-neutral-light transition"
+              className="bg-white p-5 rounded-xl border border-neutral-200 hover:bg-neutral-light transition text-left md:text-center"
             >
               {item}
             </li>

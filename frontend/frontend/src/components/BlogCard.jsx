@@ -42,12 +42,14 @@ export default function BlogCard({ blog }) {
           {content}
         </p>
 
-        <Link
-          to={blogId ? `/blogs/${blogId}` : "/blogs"}
-          className="inline-block text-orange-400 font-medium text-sm hover:underline transition"
-        >
-          Read More →
-        </Link>
+   <Link
+  to={blogId ? `/blogs/${blogId}` : "/blogs"}
+  className="inline-block text-orange-400 font-semibold text-sm hover:text-orange-300 underline underline-offset-4 transition-all drop-shadow-md"
+>
+  Read More →
+</Link>
+
+
       </div>
     </motion.div>
   );

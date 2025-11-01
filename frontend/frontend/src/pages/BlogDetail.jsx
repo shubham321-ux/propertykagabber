@@ -45,16 +45,16 @@ export default function BlogDetail() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <h1 className="text-2xl md:text-3xl font-heading font-bold text-primary-dark mb-2 leading-snug">
+        <h1 className="text-2xl md:text-3xl text-left md:text-center font-heading font-bold text-gray-800 mb-2 leading-snug">
           {blog.title}
         </h1>
 
-        <p className="text-neutral text-sm mb-2">
+        <p className="text-neutral text-sm mb-2 text-left md:text-center">
           by <span className="font-semibold text-primary-dark">Property ka Gabbar</span> &nbsp;•&nbsp;
           {blog.date ? new Date(blog.date).toLocaleDateString() : "Oct 2025"}
         </p>
 
-        <p className="max-w-2xl mx-auto text-neutral  text-sm md:text-base">
+        <p className="max-w-2xl mx-auto text-neutral text-left md:text-center text-sm md:text-base">
           Get expert insights and real-world advice on property trends, design ideas, and smart investments.
         </p>
       </motion.section>
@@ -93,7 +93,7 @@ export default function BlogDetail() {
               "In today’s evolving real estate landscape, understanding market shifts and modern architectural trends is more important than ever. Here’s what our experts have to say."}
           </p>
 
-          <h2 className="text-xl md:text-2xl font-semibold text-primary-dark mt-8 mb-3">
+          <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mt-8 mb-3">
             Key Takeaways
           </h2>
           <ul className="list-disc ml-5 mb-4 space-y-1 text-base md:text-lg">
@@ -102,7 +102,7 @@ export default function BlogDetail() {
             <li>Transparency and quality remain at the heart of good construction.</li>
           </ul>
 
-          <h2 className="text-xl md:text-2xl font-semibold text-primary-dark mt-8 mb-3">
+          <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mt-8 mb-3">
             Full Article
           </h2>
           <p className="text-base md:text-lg whitespace-pre-line break-words">
@@ -110,7 +110,7 @@ export default function BlogDetail() {
               "Our vision for real estate is rooted in trust and transparency. Whether you’re a buyer, investor, or homeowner, staying informed helps you make smarter, more confident decisions."}
           </p>
 
-          <h2 className="text-xl md:text-2xl font-semibold text-primary-dark mt-10 mb-3">
+          <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mt-10 mb-3">
             Conclusion
           </h2>
           <p className="text-base md:text-lg">

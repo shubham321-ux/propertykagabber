@@ -1,83 +1,49 @@
-import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-const sentences = [
-  "Building Dreams into Reality...",
-  "Crafting Spaces with Excellence...",
-  "Your Trusted Partner in Construction...",
-];
+import LazyImage from "./LazyImage";
+import houseImg from "../assets/3dHome.jpg";
 
-export default function Hero() {
-  const [currentText, setCurrentText] = useState("");
-  const [sentenceIndex, setSentenceIndex] = useState(0);
-  const [charIndex, setCharIndex] = useState(0);
-  const [deleting, setDeleting] = useState(false);
-  const [offsetY, setOffsetY] = useState(0); // ✅ for parallax
-
-  // Typing effect
-  useEffect(() => {
-    const currentSentence = sentences[sentenceIndex];
-    let typingSpeed = deleting ? 50 : 120;
-
-    const timer = setTimeout(() => {
-      if (!deleting && charIndex < currentSentence.length) {
-        setCurrentText((prev) => prev + currentSentence[charIndex]);
-        setCharIndex(charIndex + 1);
-      } else if (deleting && charIndex > 0) {
-        setCurrentText((prev) => prev.slice(0, -1));
-        setCharIndex(charIndex - 1);
-      } else if (!deleting && charIndex === currentSentence.length) {
-        setTimeout(() => setDeleting(true), 1500);
-      } else if (deleting && charIndex === 0) {
-        setDeleting(false);
-        setSentenceIndex((prev) => (prev + 1) % sentences.length);
-      }
-    }, typingSpeed);
-
-    return () => clearTimeout(timer);
-  }, [charIndex, deleting, sentenceIndex]);
-
-  // ✅ Parallax effect
-  useEffect(() => {
-    const handleScroll = () => setOffsetY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  return (
-    <section className="relative w-full h-[100vh] flex items-center justify-center overflow-hidden">
-      {/* Parallax Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center will-change-transform"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1920&q=80')`,
-          transform: `translateY(${offsetY * 0.9}px)`, // ✅Parallax depth
-          transition: "transform 0.1s linear",
-        }}
-      ></div>
-
-      {/* Dark Glass Overlay */}
-      <div className="absolute inset-0 bg-black bg-opacity-60 backdrop-blur-sm"></div>
-
-      {/* Centered Content */}
-      <div className="relative z-10 text-center px-6">
-        <h1 className="text-4xl sm:text-6xl font-heading font-bold text-white mb-6">
-          {currentText}
-          <span className="animate-pulse">|</span>
-        </h1>
-        <p className="text-neutral-light text-lg sm:text-xl max-w-2xl mx-auto">
-          We create modern spaces that inspire, innovate, and elevate lifestyles.  
-          From residential to commercial, we build with passion and precision.
-        </p>
-         <Link
-                              to={`/properties`}
-                             
-                            >
-                              <button className="mt-8 px-6 py-3 bg-accent text-white font-medium rounded-lg shadow-lg hover:bg-accent-light transition">
-          Explore Our Projects →
+const Hero = () => (
+  <section className="flex flex-col md:flex-row items-center justify-between container mx-auto py-20 px-6">
+    {/* LEFT CONTENT */}
+    <motion.div
+      className="max-w-lg md:w-1/2 text-left" // ✅ Always left aligned
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
+      <p className="text-orange-500 font-semibold mb-3 uppercase tracking-wide">
+        Trusted Real Estate Experts
+      </p>
+      <h1 className="text-4xl md:text-5xl font-bold mb-5 leading-tight text-gray-800">
+        Find Your Perfect Home with Confidence
+      </h1>
+      <p className="text-gray-600 mb-8 text-base md:text-lg leading-relaxed">
+        Explore verified residential and commercial properties directly from
+        owners — no hidden fees, no brokerage. Begin your search for the ideal
+        home in Mohali, Zirakpur, and Kharar today.
+      </p>
+      <Link to="/properties">
+        <button className="bg-orange-500 text-white px-6 py-3 rounded-md hover:bg-orange-600 transition">
+          Explore Properties
         </button>
-                            </Link>
-       
-      </div>
-    </section>
-  );
-}
+      </Link>
+    </motion.div>
+
+    {/* RIGHT IMAGE */}
+    <motion.div
+      className="md:w-1/2 mt-10 md:mt-0 flex justify-center md:justify-end"
+      initial={{ opacity: 0, x: 30 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
+      <LazyImage
+        src={houseImg}
+        alt="Modern Home"
+        className="w-full max-w-2xl h-auto object-contain md:object-cover rounded-2xl shadow-lg"
+      />
+    </motion.div>
+  </section>
+);
+
+export default Hero;

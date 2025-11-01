@@ -56,7 +56,7 @@ export default function Blogs() {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="bg-neutral-light min-h-screen py-24 px-6 mt-20"
+        className="bg-neutral-light min-h-screen py-24 px-6 mt-10"
       >
         {/* Header */}
         <SectionHeader

@@ -4,7 +4,7 @@ import { Suspense } from "react";
 function ImageSkeleton({ className }) {
   return (
     <div
-      className={`animate-pulse bg-neutral-light rounded-lg ${className}`}
+      className={`animate-pulse bg-neutral-light rounded-sm ${className}`}
     ></div>
   );
 }

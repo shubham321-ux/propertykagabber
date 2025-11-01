@@ -1,55 +1,25 @@
 import { motion } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import Seo from "../components/Seo";
+import SectionHeader from "../components/SectionHeader";
 import PropertyCard from "../components/PropertyCard";
 import BlogCard from "../components/BlogCard";
+import LazyImage from "../components/LazyImage"; 
 import { getProperties, getBlogs } from "../api/api";
+import Hero from "../components/Hero";
 
-import houseImg from "../assets/3dHome.jpg";
 import livingRoom from "../assets/propert1.jpg";
 import "./css/typewriter.css";
-import SectionHeader from "../components/SectionHeader";
-import { Link } from "react-router-dom";
 
-// Animation Preset
 const fadeInUp = {
   hidden: { opacity: 0, y: 40 },
   show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
 };
 
-// Hero Section
-const HeroSection = () => (
-  <section className="flex flex-col md:flex-row items-center justify-between container mx-auto py-20 px-6">
-    {/* Left Content */}
-    <div className="max-w-lg md:w-1/2 text-center md:text-left">
-      <p className="text-orange-500 font-semibold mb-3">Trusted Real Estate Experts</p>
-      <h1 className="text-4xl md:text-5xl font-bold mb-5 leading-tight">
-        Find Your Perfect Home with Confidence
-      </h1>
-      <p className="text-gray-500 mb-8 text-base md:text-lg">
-        Explore verified residential and commercial properties directly from owners — 
-        no hidden fees, no brokerage. Begin your search for the ideal home in Mohali, 
-        Zirakpur, and Kharar today.
-      </p>
-    <Link to="/properties">
-      <button className="bg-orange-500 text-white px-6 py-3 rounded-md hover:bg-orange-600 transition">
-        Explore Properties
-      </button>
-    </Link>
-    </div>
 
-    {/* Right Image */}
-    <div className="md:w-1/2 mt-10 md:mt-0 flex justify-center">
-      <img
-        src={houseImg}
-        alt="Modern Home"
-        className="w-full max-w-2xl h-auto object-contain md:object-cover"
-      />
-    </div>
-  </section>
-);
 
-// Search Bar
+// SEARCH BAR
 const SearchBar = () => (
   <div className="bg-white shadow-md rounded-lg p-5 -mt-8 z-10 relative container mx-auto flex flex-wrap justify-center gap-3">
     <select className="border p-2 rounded w-40">
@@ -61,15 +31,15 @@ const SearchBar = () => (
     <select className="border p-2 rounded w-40">
       <option>Property Type</option>
     </select>
-   <Link to="blogs">
-    <button className="bg-orange-500 text-white px-5 py-2 rounded hover:bg-orange-600 transition">
-      Find Now
-    </button>
-   </Link>
+    <Link to="/properties">
+      <button className="bg-orange-500 text-white px-5 py-2 rounded hover:bg-orange-600 transition">
+        Find Now
+      </button>
+    </Link>
   </div>
 );
 
-// About Section
+// ABOUT SECTION
 const AboutSection = () => (
   <motion.section
     variants={fadeInUp}
@@ -78,75 +48,69 @@ const AboutSection = () => (
     viewport={{ once: true }}
     className="container mx-auto py-16 px-4 flex flex-col md:flex-row items-center gap-10"
   >
-    {/* Left Image */}
     <div className="w-full md:w-[45%] flex justify-center">
-      <img
+      <LazyImage
         src={livingRoom}
         alt="Modern Living Room"
         className="w-full max-w-sm rounded-md shadow-md object-cover"
       />
     </div>
 
-    {/* Right Content */}
     <div className="w-full md:w-[55%]">
       <p className="text-orange-500 font-semibold mb-2">About Us</p>
       <h2 className="text-3xl font-bold mb-4">
         Redefining Real Estate with Trust & Transparency
       </h2>
       <p className="text-gray-500 mb-4">
-        We are a new-age real estate platform that simplifies property buying, 
-        selling, and renting — bringing verified listings directly from owners 
-        across Mohali, Zirakpur, and Kharar. Our mission is to deliver 
-        a seamless, transparent, and commission-free experience to every client.
+        We are a new-age real estate platform that simplifies property buying,
+        selling, and renting — bringing verified listings directly from owners
+        across Mohali, Zirakpur, and Kharar. Our mission is to deliver a
+        seamless, transparent, and commission-free experience to every client.
       </p>
 
       <ul className="text-gray-600 mb-6 space-y-2">
-        <li>Smart, modern home designs for comfortable living</li>
-        <li>Peaceful and well-connected neighborhoods</li>
-        <li>Luxury amenities for a refined lifestyle</li>
-        <li>Full support and verified documentation</li>
+        <li> Smart, modern home designs for comfortable living</li>
+        <li> Peaceful and well-connected neighborhoods</li>
+        <li> Luxury amenities for a refined lifestyle</li>
+        <li> Full support and verified documentation</li>
       </ul>
 
-      <Link to="about-us">
-      <button className="bg-orange-500 text-white px-5 py-2 rounded-md hover:bg-orange-600 transition">
-        Learn More
-      </button>
+      <Link to="/about-us">
+        <button className="bg-orange-500 text-white px-5 py-2 rounded-md hover:bg-orange-600 transition">
+          Learn More
+        </button>
       </Link>
     </div>
   </motion.section>
 );
 
-// Count-Up Hook
+// COUNT-UP HOOK
 function useCountUpOnView(target, options = { duration: 1.2 }) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
   const [hasAnimated, setHasAnimated] = useState(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        if (entry.isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-          let start = 0;
-          const end = target;
-          const duration = options.duration * 1000;
-          const stepTime = 10;
-          const increment = (end - start) / (duration / stepTime);
-
-          const counter = setInterval(() => {
-            start += increment;
-            if (start >= end) {
-              clearInterval(counter);
-              setCount(end);
-            } else {
-              setCount(Math.floor(start));
-            }
-          }, stepTime);
-        }
-      },
-      { threshold: 0.5 }
-    );
+    const observer = new IntersectionObserver((entries) => {
+      const [entry] = entries;
+      if (entry.isIntersecting && !hasAnimated) {
+        setHasAnimated(true);
+        let start = 0;
+        const end = target;
+        const duration = options.duration * 1000;
+        const stepTime = 10;
+        const increment = (end - start) / (duration / stepTime);
+        const counter = setInterval(() => {
+          start += increment;
+          if (start >= end) {
+            clearInterval(counter);
+            setCount(end);
+          } else {
+            setCount(Math.floor(start));
+          }
+        }, stepTime);
+      }
+    }, { threshold: 0.5 });
 
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
@@ -155,7 +119,7 @@ function useCountUpOnView(target, options = { duration: 1.2 }) {
   return [count, ref];
 }
 
-// Stats Section
+// STATS SECTION
 const StatsSection = () => {
   const stats = [
     { number: 560, label: "Total Area (sq. ft.)" },
@@ -190,7 +154,121 @@ const StatsSection = () => {
   );
 };
 
-// Home Page
+// WHY CHOOSE US
+const WhyChooseUs = () => (
+  <motion.section
+    variants={fadeInUp}
+    initial="hidden"
+    whileInView="show"
+    viewport={{ once: true }}
+    className="bg-white py-20 px-6 text-center"
+  >
+    <SectionHeader
+      label="Why Choose Us"
+      title="Your Trusted Real Estate Partner"
+      subtitle="We prioritize your trust and satisfaction through transparent, verified, and seamless property services."
+    />
+    <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mt-10">
+      {[
+        {
+          title: "Zero Brokerage",
+          desc: "Connect directly with property owners — no middlemen, no hidden costs.",
+        },
+        {
+          title: "Verified Listings",
+          desc: "Each property is checked for authenticity, documents, and ownership clarity.",
+        },
+        {
+          title: "Expert Guidance",
+          desc: "Our team supports you through every step — from search to final transaction.",
+        },
+      ].map((item, idx) => (
+        <div
+          key={idx}
+          className="bg-neutral-light rounded-xl p-6 shadow-sm hover:shadow-md transition"
+        >
+          <h3 className="text-xl font-semibold text-gray-800 mb-3">
+            {item.title}
+          </h3>
+          <p className="text-gray-600">{item.desc}</p>
+        </div>
+      ))}
+    </div>
+  </motion.section>
+);
+
+// TESTIMONIALS
+const Testimonials = () => (
+  <motion.section
+    variants={fadeInUp}
+    initial="hidden"
+    whileInView="show"
+    viewport={{ once: true }}
+    className="bg-neutral-light py-20 px-6 text-center"
+  >
+    <SectionHeader
+      label="Testimonials"
+      title="What Our Clients Say"
+      subtitle="We’re proud to have earned the trust of thousands of property owners and buyers."
+    />
+    <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mt-10">
+      {[
+        {
+          name: "Ravi Sharma",
+          feedback:
+            "I sold my property in Mohali within a week! Transparent process and no brokerage at all.",
+        },
+        {
+          name: "Neha Verma",
+          feedback:
+            "The listings were genuine and verified. It saved me a lot of time and effort while buying.",
+        },
+        {
+          name: "Amit Singh",
+          feedback:
+            "Fantastic service! I found my dream home in Zirakpur without any middlemen.",
+        },
+      ].map((client, idx) => (
+        <div
+          key={idx}
+          className="bg-white rounded-xl shadow-sm hover:shadow-md transition p-6"
+        >
+          <p className="text-gray-600 italic mb-4">“{client.feedback}”</p>
+          <h4 className="font-semibold text-gray-800">{client.name}</h4>
+        </div>
+      ))}
+    </div>
+  </motion.section>
+);
+
+// FINAL CTA
+const FinalCTA = () => (
+  <motion.section
+    variants={fadeInUp}
+    initial="hidden"
+    whileInView="show"
+    viewport={{ once: true }}
+    className="bg-orange-500 text-white py-20 px-6 text-left md:text-center"
+  >
+    <h2 className="text-3xl md:text-4xl font-bold mb-4">
+      Join PropertyKaGabbar Today
+    </h2>
+    <p className="max-w-2xl mx-auto mb-8 text-lg opacity-90">
+      Experience real estate the smart way — verified properties, zero
+      brokerage, and complete transparency.
+    </p>
+    <Link to="/contact">
+      <button className="bg-white text-orange-600 px-6 py-3 rounded-md font-semibold hover:bg-gray-100 transition">
+        Contact Us
+      </button>
+    </Link>
+  </motion.section>
+);
+
+
+
+
+// MAIN HOME PAGE
 export default function Home() {
   const [featuredProps, setFeaturedProps] = useState([]);
   const [featuredBlogs, setFeaturedBlogs] = useState([]);
@@ -268,12 +346,12 @@ export default function Home() {
     <>
       <Seo
         pageName="home"
-        title="Quarter – Verified Real Estate Properties in Tricity"
+        title="PropertyKaGabbar – Verified Real Estate in Tricity"
         description="Buy or rent verified properties directly from owners — zero brokerage, complete transparency."
-        keywords="Quarter, real estate, zero brokerage, Mohali, Zirakpur, Kharar, direct owner property"
+        keywords="PropertyKaGabbar, real estate, zero brokerage, Mohali, Zirakpur, Kharar, direct owner property"
       />
 
-      <HeroSection />
+      <Hero />
       <SearchBar />
       <AboutSection />
       <StatsSection />
@@ -289,9 +367,8 @@ export default function Home() {
         <SectionHeader
           label="Featured Listings"
           title="Explore Our Top Properties"
-          subtitle="Handpicked residential and commercial properties tailored to your lifestyle — from modern apartments to luxurious villas."
+          subtitle="Handpicked residential and commercial properties tailored to your lifestyle."
         />
-
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
           {featuredProps.map((p) => (
             <PropertyCard key={p._id || p.id} property={p} />
@@ -312,7 +389,6 @@ export default function Home() {
           title="Latest Insights & Real Estate Tips"
           subtitle="Stay informed with our expert advice, market updates, and home-buying guides."
         />
-
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
           {featuredBlogs.map((b) => (
             <BlogCard key={b._id || b.id} blog={b} />
@@ -320,57 +396,64 @@ export default function Home() {
         </div>
       </motion.section>
 
-      {/* Contact Section */}
-      <motion.section
-        variants={fadeInUp}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true }}
-        className="bg-neutral-light py-20 px-6 text-center"
-      >
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
-          Get in Touch
-        </h2>
+      {/* Static Sections */}
+      <WhyChooseUs />
 
-        <p className="text-gray-500 text-base md:text-lg mb-10 max-w-2xl mx-auto">
-          Looking for your next property in{" "}
-          <span className="text-orange-500 font-semibold">Mohali</span>,{" "}
-          <span className="text-orange-500 font-semibold">Zirakpur</span>, or{" "}
-          <span className="text-orange-500 font-semibold">Kharar</span>?  
-          Reach out to our team today — we’ll help you make the right move with confidence.
-        </p>
+   {/* Contact Section */}
+<motion.section
+  variants={fadeInUp}
+  initial="hidden"
+  whileInView="show"
+  viewport={{ once: true }}
+  className="bg-neutral-light py-20 px-6 text-left md:text-center"
+>
+  <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
+    Get in Touch
+  </h2>
 
-        <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 max-w-lg mx-auto py-10 px-8">
-          <div className="space-y-4 text-gray-700 text-base md:text-lg">
-            <p>
-              <strong className="text-gray-800">Call Us:</strong>{" "}
-              <a href="tel:7710110100" className="text-orange-500 hover:underline">
-                7710110100
-              </a>
-            </p>
-            <p>
-              <strong className="text-gray-800">Email:</strong>{" "}
-              <a
-                href="mailto:info@propertykagabbar.com"
-                className="text-orange-500 hover:underline"
-              >
-                info@propertykagabbar.com
-              </a>
-            </p>
-            <p>
-              <strong className="text-gray-800">Website:</strong>{" "}
-              <a
-                href="https://www.propertykagabbar.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-orange-500 hover:underline"
-              >
-                www.propertykagabbar.com
-              </a>
-            </p>
-          </div>
-        </div>
-      </motion.section>
+  <p className="text-gray-500 text-base md:text-lg mb-10 md:max-w-2xl md:mx-auto">
+    Looking for your next property in{" "}
+    <span className="text-orange-500 font-semibold">Mohali</span>,{" "}
+    <span className="text-orange-500 font-semibold">Zirakpur</span>, or{" "}
+    <span className="text-orange-500 font-semibold">Kharar</span>? Reach out to
+    our team today — we’ll help you make the right move with confidence.
+  </p>
+
+  <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 max-w-lg mx-auto py-10 px-8 text-left md:text-center">
+    <div className="space-y-4 text-gray-700 text-base md:text-lg">
+      <p>
+        <strong className="text-gray-800">Call Us:</strong>{" "}
+        <a href="tel:7710110100" className="text-orange-500 hover:underline">
+          7710110100
+        </a>
+      </p>
+      <p>
+        <strong className="text-gray-800">Email:</strong>{" "}
+        <a
+          href="mailto:info@propertykagabbar.com"
+          className="text-orange-500 hover:underline"
+        >
+          info@propertykagabbar.com
+        </a>
+      </p>
+      <p>
+        <strong className="text-gray-800">Website:</strong>{" "}
+        <a
+          href="https://www.propertykagabbar.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-orange-500 hover:underline"
+        >
+          www.propertykagabbar.com
+        </a>
+      </p>
+    </div>
+  </div>
+</motion.section>
+
+
+      <Testimonials />
+      <FinalCTA />
     </>
   );
 }

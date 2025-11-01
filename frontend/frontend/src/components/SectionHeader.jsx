@@ -6,8 +6,8 @@ export default function SectionHeader({
 }) {
   return (
     <div
-      className={`text-${align} mb-12 ${
-        align === "center" ? "max-w-2xl mx-auto" : ""
+      className={`text-left md:text-${align} mb-12 ${
+        align === "center" ? "md:max-w-2xl md:mx-auto" : ""
       }`}
     >
       {label && (

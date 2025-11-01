@@ -47,11 +47,11 @@ export default function PropertyDetail() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <h1 className="text-3xl md:text-4xl font-heading font-semibold text-primary-dark mb-3 leading-snug">
+        <h1 className="text-2xl md:text-3xl text-left md:text-center font-heading font-semibold text-gray-800  mb-3 leading-snug">
           {property.title}
         </h1>
 
-        <p className="text-neutral-600 text-base md:text-lg">
+        <p className="text-neutral-600 text-base md:text-lg text-left md:text-center">
           {property.location || "Location not specified"}
         </p>
       </motion.section>
