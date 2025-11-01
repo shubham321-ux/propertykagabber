@@ -64,7 +64,7 @@ export default function Login() {
         </form>
 
         <p className="text-center text-sm text-neutral mt-6">
-          © {new Date().getFullYear()} MySite Admin Panel
+          © {new Date().getFullYear()} PropertyKaGabbar Admin Panel
         </p>
       </div>
     </div>
