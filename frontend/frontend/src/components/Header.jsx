@@ -95,10 +95,10 @@ export default function Header() {
             </Link>
           ))}
           <Link
-            to="/add-listing"
+            to="/contact"
             className="block w-full text-center bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-lg font-medium transition"
           >
-            Add Listings
+            Contact
           </Link>
         </div>
       </div>

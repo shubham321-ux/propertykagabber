@@ -11,7 +11,7 @@ import Hero from "../components/Hero";
 
 import livingRoom from "../assets/propert1.jpg";
 import "./css/typewriter.css";
-
+import missionImg from "../assets/misson.jpg"
 const fadeInUp = {
   hidden: { opacity: 0, y: 40 },
   show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
@@ -265,6 +265,139 @@ const FinalCTA = () => (
   </motion.section>
 );
 
+// --- NEW SECTION 1: OUR MISSION ---
+const MissionSection = () => (
+  <motion.section
+    variants={fadeInUp}
+    initial="hidden"
+    whileInView="show"
+    viewport={{ once: true }}
+    className="bg-neutral-light py-20 px-6 text-left md:text-center"
+  >
+    <SectionHeader
+      label="Our Mission"
+      title="Empowering Every Property Journey"
+      subtitle="At PropertyKaGabbar, we aim to redefine real estate by eliminating middlemen, ensuring verified listings, and bringing clarity to every transaction."
+    />
+    <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 mt-10 items-center">
+      <div className="text-gray-600 leading-relaxed space-y-4 text-base md:text-lg">
+        <p>
+          Founded with a passion for transparency, PropertyKaGabbar bridges
+          the gap between property owners and buyers. We believe that
+          real estate should be simple, secure, and stress-free.
+        </p>
+        <p>
+          Our platform ensures that every listing is verified, every
+          transaction is documented, and every client walks away
+          with complete satisfaction.
+        </p>
+      </div>
+      <LazyImage
+        src={missionImg}
+        alt="Our Mission"
+        className="rounded-xl shadow-md w-full object-cover"
+      />
+    </div>
+  </motion.section>
+);
+
+// --- NEW SECTION 2: HOW IT WORKS ---
+const ProcessSection = () => (
+  <motion.section
+    variants={fadeInUp}
+    initial="hidden"
+    whileInView="show"
+    viewport={{ once: true }}
+    className="bg-white py-20 px-6 text-left md:text-center"
+  >
+    <SectionHeader
+      label="How It Works"
+      title="Your Smart Property Journey in 3 Steps"
+      subtitle="We’ve simplified the process — from search to ownership."
+    />
+
+    <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mt-10">
+      {[
+        {
+          step: "01",
+          title: "Browse Verified Listings",
+          desc: "Explore 100% owner-verified properties across Mohali, Zirakpur, and Kharar.",
+        },
+        {
+          step: "02",
+          title: "Connect Directly",
+          desc: "Skip the brokers. Contact the property owner instantly through our secure platform.",
+        },
+        {
+          step: "03",
+          title: "Close with Confidence",
+          desc: "Complete your deal transparently with proper documentation and zero hidden charges.",
+        },
+      ].map((item, idx) => (
+        <div
+          key={idx}
+          className="bg-neutral-light rounded-xl p-8 shadow-sm hover:shadow-md transition flex flex-col items-center text-center"
+        >
+          <div className="bg-orange-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg mb-4">
+            {item.step}
+          </div>
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">
+            {item.title}
+          </h3>
+          <p className="text-gray-600 text-base leading-relaxed">{item.desc}</p>
+        </div>
+      ))}
+    </div>
+  </motion.section>
+);
+
+// --- NEW SECTION 3: WHY CUSTOMERS TRUST US ---
+const TrustSection = () => (
+  <motion.section
+    variants={fadeInUp}
+    initial="hidden"
+    whileInView="show"
+    viewport={{ once: true }}
+    className="bg-neutral-light py-20 px-6 text-left md:text-center"
+  >
+    <SectionHeader
+      label="Our Values"
+      title="Why Customers Trust PropertyKaGabbar"
+      subtitle="Our platform stands on the pillars of honesty, support, and satisfaction."
+    />
+
+    <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mt-10">
+      {[
+        {
+          icon: "🏡",
+          title: "Verified Owners Only",
+          desc: "Every property listed is owner-verified to protect your investment.",
+        },
+        {
+          icon: "🤝",
+          title: "Complete Transparency",
+          desc: "We ensure fair dealing and clear communication at every step.",
+        },
+        {
+          icon: "💬",
+          title: "Dedicated Support",
+          desc: "Our team provides personalized assistance for every query.",
+        },
+      ].map((item, idx) => (
+        <div
+          key={idx}
+          className="bg-white rounded-xl shadow-sm hover:shadow-md transition p-8 text-center"
+        >
+          <div className="text-4xl mb-4">{item.icon}</div>
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">
+            {item.title}
+          </h3>
+          <p className="text-gray-600 text-base leading-relaxed">{item.desc}</p>
+        </div>
+      ))}
+    </div>
+  </motion.section>
+);
 
 
 
@@ -453,6 +586,9 @@ export default function Home() {
 
 
       <Testimonials />
+      <MissionSection />
+<ProcessSection />
+<TrustSection />
       <FinalCTA />
     </>
   );

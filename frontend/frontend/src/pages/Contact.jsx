@@ -28,53 +28,75 @@ export default function Contact() {
   return (
     <div className="bg-white text-neutral-dark mt-16">
       <Seo pageName="Contact" />
- {/* CONTACT INFO CARD */}
+
+      {/* CONTACT INFO CARD */}
       <motion.section
-        className="max-w-4xl mx-auto px-6 py-16"
+        className="max-w-4xl mx-auto px-4 sm:px-6 py-16"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <div className="bg-neutral-light/60 rounded-2xl shadow-card border border-neutral-light p-10 space-y-6">
-          <h2 className="text-3xl font-heading font-bold text-primary-dark text-center mb-4">
+        <div className="bg-neutral-light/60 rounded-2xl shadow-card border border-neutral-light p-6 sm:p-10 space-y-6">
+          <h2 className="text-2xl sm:text-3xl font-heading font-bold text-gray-800 text-left sm:text-center mb-4">
             Contact Information
           </h2>
 
-          <p className="text-neutral text-center text-base leading-relaxed mb-8">
+          <p className="text-neutral text-left sm:text-center text-base leading-relaxed mb-8 max-w-2xl mx-auto">
             Reach us directly via phone or email, or visit our office during
             working hours. We look forward to hearing from you.
           </p>
 
-          <div className="space-y-4 text-center md:text-left">
+          <div className="space-y-5 text-left">
             {contact.phone?.length > 0 && (
-              <p className="flex items-center justify-center md:justify-start gap-3 text-neutral text-base">
-                <FiPhone className="text-primary" />
-                <b>Phone:</b> {contact.phone.join(", ")}
-              </p>
+              <div className="flex flex-col sm:flex-row items-start gap-2 text-neutral text-base break-words">
+                <div className="flex items-center gap-3">
+                  <FiPhone className="text-primary text-lg shrink-0" />
+                  <b>Phone:</b>
+                </div>
+                <span className="sm:ml-1 text-gray-700">{contact.phone.join(", ")}</span>
+              </div>
             )}
+
             {contact.email?.length > 0 && (
-              <p className="flex items-center justify-center md:justify-start gap-3 text-neutral text-base">
-                <FiMail className="text-primary" />
-                <b>Email:</b> {contact.email.join(", ")}
-              </p>
+              <div className="flex flex-col sm:flex-row items-start gap-2 text-neutral text-base break-words">
+                <div className="flex items-center gap-3">
+                  <FiMail className="text-primary text-lg shrink-0" />
+                  <b>Email:</b>
+                </div>
+                <span className="sm:ml-1 text-gray-700 break-all">
+                  {contact.email.join(", ")}
+                </span>
+              </div>
             )}
+
             {contact.address?.length > 0 && (
-              <p className="flex items-center justify-center md:justify-start gap-3 text-neutral text-base">
-                <FiMapPin className="text-primary" />
-                <b>Address:</b> {contact.address.join(", ")}
-              </p>
+              <div className="flex flex-col sm:flex-row items-start gap-2 text-neutral text-base break-words">
+                <div className="flex items-center gap-3">
+                  <FiMapPin className="text-primary text-lg shrink-0" />
+                  <b>Address:</b>
+                </div>
+                <span className="sm:ml-1 text-gray-700">
+                  {contact.address.join(", ")}
+                </span>
+              </div>
             )}
+
             {contact.workingHours && (
-              <p className="flex items-center justify-center md:justify-start gap-3 text-neutral text-base">
-                <FiClock className="text-primary" />
-                <b>Working Hours:</b> {contact.workingHours}
-              </p>
+              <div className="flex flex-col sm:flex-row items-start gap-2 text-neutral text-base">
+                <div className="flex items-center gap-3">
+                  <FiClock className="text-primary text-lg shrink-0" />
+                  <b>Working Hours:</b>
+                </div>
+                <span className="sm:ml-1 text-gray-700">
+                  {contact.workingHours}
+                </span>
+              </div>
             )}
           </div>
 
           {/* SOCIAL LINKS */}
           {contact.socialLinks?.length > 0 && (
-            <div className="flex gap-6 justify-center pt-6 text-2xl">
+            <div className="flex flex-wrap justify-start sm:justify-center gap-6 pt-8 text-2xl text-gray-700">
               {contact.socialLinks.map((link, idx) => {
                 const Icon =
                   link.platform.toLowerCase() === "facebook"
@@ -98,6 +120,7 @@ export default function Contact() {
           )}
         </div>
       </motion.section>
+
       {/* HERO / INTRO SECTION */}
       <motion.section
         className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between px-6 py-20 gap-12"
@@ -106,16 +129,16 @@ export default function Contact() {
         transition={{ duration: 1 }}
       >
         {/* LEFT CONTENT */}
-        <div className="md:w-1/2 space-y-6 text-center md:text-left">
-          <h1 className="text-4xl md:text-5xl font-heading font-bold text-primary-dark">
+        <div className="md:w-1/2 space-y-6 text-left">
+          <h1 className="text-4xl md:text-5xl font-heading font-bold text-gray-800">
             Get in Touch With Us
           </h1>
-          <p className="text-neutral text-lg leading-relaxed">
+          <p className="text-neutral text-base md:text-lg leading-relaxed">
             Whether you’re planning your next real estate investment, looking
             for design consultation, or just have a question about our services
             — we’re here to assist you.
           </p>
-          <p className="text-neutral text-base leading-relaxed">
+          <p className="text-neutral text-base md:text-lg leading-relaxed">
             Our team of experts will get back to you promptly with the right
             guidance and support. Let’s turn your vision into a successful
             project.
@@ -139,15 +162,15 @@ export default function Contact() {
 
       {/* CTA SECTION */}
       <motion.section
-        className="max-w-3xl mx-auto text-center pb-24 px-6"
+        className="max-w-3xl mx-auto text-left sm:text-center pb-24 px-6"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
-        <h3 className="text-3xl font-heading font-semibold text-primary-dark mb-4">
+        <h3 className="text-3xl font-heading font-semibold text-gray-800 mb-4">
           Let’s Build Something Great Together
         </h3>
-        <p className="text-neutral text-lg leading-relaxed">
+        <p className="text-neutral text-base md:text-lg leading-relaxed">
           We’re passionate about helping you achieve your goals — from concept
           to completion. Get in touch today and start your journey with us.
         </p>
